@@ -18,7 +18,7 @@ class ResPartner(models.Model):
     is_compagnie_maritine = fields.Boolean(string="Est une compagnie maritine")
     is_compagnie_magasinnage = fields.Boolean(string="Est une compagnie de magasinnage")
 
-    ville = fields.Many2one("res.city", string='Ville', required=True)
+    # ville = fields.Many2one("res.city", string='Ville', required=True)
 
     numero_ice = fields.Char('ICE')
     numero_cnss = fields.Char('N° CNSS')
