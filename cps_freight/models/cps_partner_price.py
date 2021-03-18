@@ -9,7 +9,7 @@ class CpsVoyageTracking(models.Model):
     _name = 'cps.soustraitant.price'
     _description = "Prix du voyage par fournisseur"
 
-    trajet_id = fields.Many2one('cps.trajet', 'Voyage')
+    # trajet_id = fields.Many2one('cps.trajet', 'Voyage')
     vehicule_sous_traitant_1 = fields.Many2one('cps.soustraitant', 'Vehicule')
     price = fields.Float('Prix')
 

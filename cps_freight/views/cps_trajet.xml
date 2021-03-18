@@ -6,25 +6,21 @@
         <field name="arch" type="xml">
             <form string="Gestion des trajets">
                 <sheet>
-                    <group>
                         <group name="left">
-                            <field name="lieu_ramassage"/>
-                            <field name="ville_ramassage"/>
+                            <field name="partner_id"/>
                         </group>
-                        <group name="right">
-                            <field name="lieu_livraison"/>
-                            <field name="ville_livraison"/>
-                            <field name="cout"/>
+                        <group>
+                            <field name="trajet_lines" >
+                                <tree name="Tarifs"  editable="bottom" >
+                                    <field name="lieu_ramassage"/>
+                                    <field name="lieu_livraison"/>
+                                    <field name="type_vehicule"/>
+                                    <field name="type_voyage"/>
+                                    <field name="cout"/>
+                                    <field name="currency_id"/>
+                                </tree>
+                            </field>
                         </group>
-                    </group>
-                    <group>
-                        <field name="partner_price_ids">
-                            <tree name="Fournisseurs" editable="bottom" >
-                                <field name="vehicule_sous_traitant_1"/>
-                                <field name="price"/>
-                            </tree>
-                        </field>
-                    </group>
                 </sheet>
             </form>
         </field>

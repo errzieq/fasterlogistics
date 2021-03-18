@@ -8,6 +8,7 @@
             <field name="arch" type="xml">
                 <field name="driver_id" position="before">
                     <field name="soustraitant_id" context="{'default_is_soutraitant': True, 'default_is_company' : True}"/>
+                    <field name="type_vehicule"/>
                 </field>
             </field>
         </record>

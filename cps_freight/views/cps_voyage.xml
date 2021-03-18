@@ -19,21 +19,21 @@
                 <sheet>
                      <div class="oe_button_box" name="button_box" position="inside">
                         <button type="object"
-                            name="action_view_factures_achat"
+                            name="action_view_commandes_achat"
                             class="oe_stat_button" icon="fa-money">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value" widget="statinfo">
-                                    <field name="total_facture_achats" widget="statinfo" nolabel="1" class="mr4"/> DH
+                                    <field name="total_commandes_achats" widget="statinfo" nolabel="1" class="mr4"/> DH
                                 </span>
                                 <span class="o_stat_text">Achats</span>
                             </div>
                         </button>
                         <button type="object"
-                            name="action_view_factures_vente"
+                            name="action_view_commandes_vente"
                             class="oe_stat_button" icon="fa-dollar">
                             <div class="o_field_widget o_stat_info">
                                 <span class="o_stat_value" widget="statinfo">
-                                    <field name="total_facture_vente" widget="statinfo" nolabel="1" class="mr4"/> DH
+                                    <field name="total_commandes_vente" widget="statinfo" nolabel="1" class="mr4"/> DH
                                 </span>
                                 <span class="o_stat_text">Vente</span>
                             </div>
@@ -86,9 +86,13 @@
 
                     <group>
                         <group name="left">
+                            <field name="date"/>
+                            <field name="client_id"/>
+                            <field name="ref_client"/>
                             <field name="type_voyage"/>
                             <field name="type_trajet" attrs="{'invisible': [('type_voyage', '=', 'national')]}"/>
                             <field name="type_operation" attrs="{'invisible': [('type_voyage', '=', 'national')]}"/>
+                            <field name="type_parcours"/>
                         </group>
                         <group name="right">
                             <field name="priorite" widget="priority"/>
@@ -99,22 +103,27 @@
 
                     <notebook>
                         <page string="Informations générales" name="general">
-                             <group>
+                             <group string="Trajet">
                                 <group name="left">
-                                    <field name="date"/>
-                                    <field name="client_id"/>
-                                    <field name="ref_client"/>
+                                    <field name="lieu_ramassage" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
+                                    <field name="ville_ramassage"/>
                                 </group>
                                 <group name="right">
-                                    <field name="trajet_id"/>
-                                    <field name="cout_trajet" t-options='{"widget": "monetary", "display_currency": self.currency_id}'/>
+                                    <field name="lieu_livraison"  domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
+                                    <field name="ville_livraison"/>
+                                </group>
+                             </group>
+                             <group string="Cout">
+                                <group name="left">
                                     <field name="cout_total"/>
-                                    <field name="marge"/>
                                     <label for="prix"/>
                                     <div class="o_row">
                                         <field name="prix"/>
                                         <button name="set_price" type="object" string="Mettre à jour le côut"/>
                                     </div>
+                                </group>
+                                <group name="right">
+                                     <field name="marge"/>
                                 </group>
                             </group>
                         </page>
@@ -228,8 +237,8 @@
                                 <field name="resume_ids"/>
                             </group>
                              <group>
-                                <button string="Créer facture achats" name="action_generate_bill" type="object"/>
-                                <button string="Créer Facture vente" name="action_generate_invoice" type="object"/>
+                                <button string="Créer commandes achats" name="action_generate_purchase_order" type="object"/>
+                                <button string="Créer Facture vente" name="action_generate_sale_order" type="object"/>
                              </group>
                         </page>
                     </notebook>
@@ -259,7 +268,7 @@
                             </div>
                             <div class="oe_kanban_details">
                                 <strong class="o_kanban_record_title">
-                                    <field name="trajet_id"/>
+<!--                                    <field name="trajet_id"/>-->
                                     <div>
                                         <small><field name="type_voyage"/></small>
                                     </div>
@@ -289,7 +298,7 @@
             <tree string="Livraisons" decoration-danger="progress &lt; 45" decoration-warning="progress &gt; 45 and progress &lt; 70" decoration-success="progress &gt; 70">
                 <field name="default_code" />
                 <field name="client_id" />
-                <field name="trajet_id" />
+<!--                <field name="trajet_id" />-->
                 <field name="type_voyage" />
                 <field name="type_trajet" />
                 <field name="type_operation" />

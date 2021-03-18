@@ -15,7 +15,7 @@
     "website": "http://www.cpsmaroc.com",
 
     # Dependencies
-    "depends": ['product', 'account'],
+    "depends": ['product', 'account', 'purchase', 'sale'],
 
     # Data
     "data": [
@@ -29,6 +29,7 @@
         'views/fleet_vehicle.xml',
         'views/res_partner.xml',
         'views/cps_menu.xml',
+        'views/cps_settings.xml',
         'security/ir.model.access.csv'
     ],
 
