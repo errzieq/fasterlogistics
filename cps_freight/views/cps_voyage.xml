@@ -144,7 +144,7 @@
                                 <group name="right">
                                     <field name="sous_traitance_1"/>
                                     <field name="vehicule_parc_1" attrs="{'invisible': [('sous_traitance_1', '=', True)]}"/>
-                                    <field name="vehicule_sous_traitant_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
+                                    <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
                                     <field name="cout_sous_traitant_1" attrs="{'invisible':[('sous_traitance_1', '=', False)]}"/>
                                 </group>
                             </group>
@@ -154,7 +154,7 @@
                                 <group name="left" string="Transport national">
                                     <field name="sous_traitance_1"/>
                                     <field name="vehicule_parc_1" attrs="{'invisible': [('sous_traitance_1', '=', True)]}"/>
-                                    <field name="vehicule_sous_traitant_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
+                                    <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
                                     <field name="cout_sous_traitant_1" attrs="{'invisible':[('sous_traitance_1', '=', False)]}"/>
                                 </group>
                                 <group name="right" string="Handling" attrs="{'invisible': [('type_operation', '!=', 'cch'),('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd')]}">
@@ -211,7 +211,7 @@
                                 <group name="left" string="Transport">
                                     <field name="sous_traitance_2"/>
                                     <field name="vehicule_parc_2" attrs="{'invisible': [('sous_traitance_2', '=', True)]}"/>
-                                    <field name="vehicule_sous_traitant_2" attrs="{'invisible': [('sous_traitance_2', '=', False)]}"/>
+                                    <field name="vehicule_st_2" attrs="{'invisible': [('sous_traitance_2', '=', False)]}"/>
                                     <field name="cout_sous_traitant_2" attrs="{'invisible':[('sous_traitance_2', '=', False)]}"/>
                                 </group>
                                 <group name="right" string="Echange" attrs="{'invisible': [('type_operation', '!=', 'dap'),('type_operation', '!=', 'dtd')]}">

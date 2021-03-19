@@ -66,9 +66,9 @@ class CpsVoyage(models.Model):
     sous_traitance_1 = fields.Boolean('Sous-traitance ?')
     vehicule_parc_1 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '=', False)])
     mat_vehicule_parc_1 = fields.Char('Matricule', related='vehicule_parc_1.license_plate')
-    vehicule_sous_traitant_1 = fields.Many2one('cps.soustraitant', 'Vehicule sous-traitant')
+    vehicule_st_1 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '!=', False)])
     cout_sous_traitant_1 = fields.Monetary(string="Cout")
-    mat_vehicule_sous_traitant_1 = fields.Char('Matricule', related='vehicule_sous_traitant_1.vehicule_id.license_plate')
+    mat_vehicule_sous_traitant_1 = fields.Char('Matricule', related='vehicule_st_1.license_plate')
     # ----CCH fields--------
     dedouanement_1 = fields.Many2one("res.partner", string='Transitaire', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transitaire_1 = fields.Monetary(string="Cout")
@@ -94,8 +94,8 @@ class CpsVoyage(models.Model):
     sous_traitance_2 = fields.Boolean('Sous-traitance ?')
     vehicule_parc_2 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '=', False)])
     mat_vehicule_parc_2 = fields.Char('Matricule', related='vehicule_parc_2.license_plate')
-    vehicule_sous_traitant_2 = fields.Many2one('cps.soustraitant', 'Vehicule sous_traitant')
-    mat_vehicule_sous_traitant_2 = fields.Char('Matricule', related='vehicule_sous_traitant_2.vehicule_id.license_plate')
+    vehicule_st_2 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '!=', False)])
+    mat_vehicule_sous_traitant_2 = fields.Char('Matricule', related='vehicule_st_2.license_plate')
     cout_sous_traitant_2 = fields.Monetary(string="Cout")
 
 
@@ -109,9 +109,9 @@ class CpsVoyage(models.Model):
     transbordement = fields.Many2one("res.partner", string='Transbordement', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', True),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transbordement = fields.Monetary(string="Cout")
 
-    # @api.onchange('vehicule_sous_traitant_1')
+    # @api.onchange('vehicule_st_1')
     # def onchange_vehicule_soustraitant(self):
-    #     vehicule_sous_traitant = self.env['cps.soustraitant.price'].search([('trajet_id', '=', self.trajet_id.id),('vehicule_sous_traitant_1', '=', self.vehicule_sous_traitant_1.id)],order='id desc', limit=1)
+    #     vehicule_sous_traitant = self.env['cps.soustraitant.price'].search([('trajet_id', '=', self.trajet_id.id),('vehicule_st_1', '=', self.vehicule_st_1.id)],order='id desc', limit=1)
     #     self.cout_sous_traitant_1 = vehicule_sous_traitant.price
     #     if self.type_voyage=='national':
     #         self.cout_trajet = self.cout_sous_traitant_1
@@ -130,13 +130,14 @@ class CpsVoyage(models.Model):
         self.compute_state(values)
         return voyage
 
-    @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_sous_traitant_1','type_voyage','client_id')
+    @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st_1','type_voyage','client_id')
     def compute_price(self):
-        if self.vehicule_parc_1 is not False:
-            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)])
-        if self.vehicule_sous_traitant_1 is not False:
-            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_sous_traitant_1.vehicule_id.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)])
-        self.prix = trajet_price.cout
+        trajet_price = 0
+        if len(self.vehicule_parc_1)>0:
+            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
+        if len(self.vehicule_st_1)>0:
+            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
+        self.prix = trajet_price
 
 
     @api.depends('state_national','state_cch','state_dap','state_fret','state_charter_dtd','state_routier','state_routier_transbordement')
@@ -228,9 +229,9 @@ class CpsVoyage(models.Model):
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Cout du voyage ", 'cout': p.cout_trajet})
             if p.cout_sous_traitant_1 > 0:
-                if len(p.vehicule_sous_traitant_1)>0:
+                if len(p.vehicule_st_1)>0:
                     product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_sous_traitant_1.vehicule_id.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_sous_traitant_1.soustraitant_id.id, 'cout': p.cout_sous_traitant_1})
+                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_st_1.vehicule_id.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_st_1.soustraitant_id.id, 'cout': p.cout_sous_traitant_1})
             if p.cout_transitaire_1 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_1.id, 'cout': p.cout_transitaire_1})
@@ -253,9 +254,9 @@ class CpsVoyage(models.Model):
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_2.id, 'cout': p.cout_transitaire_2})
             if p.cout_sous_traitant_2 > 0:
-                if len(p.vehicule_sous_traitant_2)>0:
+                if len(p.vehicule_st_2)>0:
                     product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
-                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_sous_traitant_2.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_sous_traitant_2.soustraitant_id.id, 'cout': p.cout_sous_traitant_2})
+                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_st_2.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_st_2.soustraitant_id.id, 'cout': p.cout_sous_traitant_2})
             if p.cout_bateau > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de bateau " , 'type_prestataire':'maritine', 'client_id': p.bateau.id, 'cout': p.cout_bateau})
@@ -490,7 +491,7 @@ class CpsVoyage(models.Model):
             'res_model': 'fleet.vehicle',
             'view_type': 'form',
             'view_mode': 'kanban,tree,form',
-            'domain': [('id', '=', self.vehicule_sous_traitant_1.vehicule_id.id)],
+            'domain': [('id', '=', self.vehicule_st_1.vehicule_id.id)],
             'type': 'ir.actions.act_window',
             'target': 'current',
         }
@@ -502,7 +503,7 @@ class CpsVoyage(models.Model):
             'res_model': 'fleet.vehicle',
             'view_type': 'form',
             'view_mode': 'kanban,tree,form',
-            'domain': [('id', '=', self.vehicule_sous_traitant_2.vehicule_id.id)],
+            'domain': [('id', '=', self.vehicule_st_2.vehicule_id.id)],
             'type': 'ir.actions.act_window',
             'target': 'current',
         }
