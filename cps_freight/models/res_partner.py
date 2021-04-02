@@ -26,3 +26,15 @@ class ResPartner(models.Model):
     numero_if = fields.Char('N° IF')
     numero_tp = fields.Char('N° TP')
     classement = fields.Char('Classement')
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            name = rec.name
+            res.append((rec.id, name))
+        return res
+
+    def get_name(self):
+        for s in self:
+            name = s.name + " " + s.city + " " + s.zip
+            return name

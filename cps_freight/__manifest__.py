@@ -22,6 +22,7 @@
         'data/ir_sequence_data.xml',
         'views/cps_colisage.xml',
         'views/cps_trajet.xml',
+        'views/cps_trajet_frns.xml',
         'views/cps_soustraitant.xml',
         'views/cps_voyage_tracking.xml',
         'views/cps_voyage_resume.xml',

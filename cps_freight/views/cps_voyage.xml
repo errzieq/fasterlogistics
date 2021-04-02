@@ -7,13 +7,13 @@
             <form string="Gestion des opérations">
                 <header>
                     <field name="state_national" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,attente_liv,livre,annule,bloque" attrs="{'invisible': [('type_voyage', '!=', 'national')]}"/>
-                    <field name="state_cch" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,dedouanement,handling,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'cch')]}"/>
-                    <field name="state_dap" widget="statusbar" clickable="true" statusbar_visible="pret,attente_doc,echange,dedouanement,attente_chargement,charge,route,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'dap')]}"/>
-                    <field name="state_fret" widget="statusbar" clickable="true" statusbar_visible="pret,attente_chargement,attente_doc,landing,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'fret')]}"/>
-                    <field name="state_obc" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,route_2,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'obc')]}"/>
-                    <field name="state_charter_dtd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,released,route_2,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd')]}"/>
-                    <field name="state_routier" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,route_2,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'routier')]}"/>
-                    <field name="state_routier_transbordement" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,transbordement,route_2,livre,annule,bloque" attrs="{'invisible': [('type_operation', '!=', 'routier-trans')]}"/>
+                    <field name="state_cch" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,dedouanement,handling,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'cch')]}"/>
+                    <field name="state_dap" widget="statusbar" clickable="true" statusbar_visible="pret,attente_doc,echange,dedouanement,attente_chargement,charge,route,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'dap')]}"/>
+                    <field name="state_fret" widget="statusbar" clickable="true" statusbar_visible="pret,attente_chargement,attente_doc,landing,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'fret')]}"/>
+                    <field name="state_obc" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'obc')]}"/>
+                    <field name="state_charter_dtd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,released,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}"/>
+                    <field name="state_routier" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier')]}"/>
+                    <field name="state_routier_transbordement" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,transbordement,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier-trans')]}"/>
                 </header>
 
                 <sheet>
@@ -25,7 +25,7 @@
                                 <span class="o_stat_value" widget="statinfo">
                                     <field name="total_commandes_achats" widget="statinfo" nolabel="1" class="mr4"/> DH
                                 </span>
-                                <span class="o_stat_text">Achats</span>
+                                <span class="o_stat_text">Cde achat</span>
                             </div>
                         </button>
                         <button type="object"
@@ -35,7 +35,27 @@
                                 <span class="o_stat_value" widget="statinfo">
                                     <field name="total_commandes_vente" widget="statinfo" nolabel="1" class="mr4"/> DH
                                 </span>
-                                <span class="o_stat_text">Vente</span>
+                                <span class="o_stat_text">Cde. vente</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_factures_achat"
+                            class="oe_stat_button" icon="fa-money">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_facture_achats" widget="statinfo" nolabel="1" class="mr4"/> DH
+                                </span>
+                                <span class="o_stat_text">Fact. achats</span>
+                            </div>
+                        </button>
+                        <button type="object"
+                            name="action_view_factures_vente"
+                            class="oe_stat_button" icon="fa-dollar">
+                            <div class="o_field_widget o_stat_info">
+                                <span class="o_stat_value" widget="statinfo">
+                                    <field name="total_facture_vente" widget="statinfo" nolabel="1" class="mr4"/> DH
+                                </span>
+                                <span class="o_stat_text">Fact. vente</span>
                             </div>
                         </button>
                         <button type="object"  attrs="{'invisible': [('mat_vehicule_parc_1', '=', False)]}"
@@ -89,10 +109,14 @@
                             <field name="date"/>
                             <field name="client_id"/>
                             <field name="ref_client"/>
-                            <field name="type_voyage"/>
-                            <field name="type_trajet" attrs="{'invisible': [('type_voyage', '=', 'national')]}"/>
-                            <field name="type_operation" attrs="{'invisible': [('type_voyage', '=', 'national')]}"/>
-                            <field name="type_parcours"/>
+                            <field name="service"/>
+                            <field name="type_voyage" attrs="{'invisible': [('service', '!=', 'transport')]}"/>
+                            <field name="voie" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
+                            <field name="type_trajet" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
+                            <field name="type_prestation" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
+                            <field name="type_parcours" attrs="{'invisible': [('type_voyage', 'not in', ('international','national'))]}"/>
+                            <field name="transport" attrs="{'invisible': [('voie', '!=', 'road'),('voie', '!=', 'air')]}"/>
+                            <field name="type_transport" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
                         </group>
                         <group name="right">
                             <field name="priorite" widget="priority"/>
@@ -107,10 +131,12 @@
                                 <group name="left">
                                     <field name="lieu_ramassage" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
                                     <field name="ville_ramassage"/>
+                                    <field name="zip_ramassage"/>
                                 </group>
                                 <group name="right">
                                     <field name="lieu_livraison"  domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
                                     <field name="ville_livraison"/>
+                                    <field name="zip_livraison"/>
                                 </group>
                              </group>
                              <group string="Cout">
@@ -134,12 +160,12 @@
                                     <field name="colisage_ids"/>
                                 </group>
                                 <group string="Divers" attrs="{'invisible': [('type_voyage', '=', 'national')]}">
-                                    <field name="ton"/>
+<!--                                    <field name="ton"/>-->
                                     <field name="ref_tmc"/>
                                 </group>
                              </group>
                         </page>
-                        <page string="National" name="general" attrs="{'invisible': [('type_voyage', '=', 'international')]}">
+                        <page string="National" name="general" attrs="{'invisible': [('type_voyage', '!=', 'national')]}">
                              <group>
                                 <group name="right">
                                     <field name="sous_traitance_1"/>
@@ -149,7 +175,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="CCH" name="cch" attrs="{'invisible': [('type_operation', '!=', 'cch'),('type_operation', '!=', 'obc'),('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd'),('type_operation', '!=', 'routier'),('type_operation', '!=', 'routier-trans')]}">
+                        <page string="Pré-acheminement" name="cch" attrs="{'invisible': [('service', 'not in', ('cch')), ('transport', 'not in', ('dtd','dta'))]}">
                              <group>
                                 <group name="left" string="Transport national">
                                     <field name="sous_traitance_1"/>
@@ -157,7 +183,7 @@
                                     <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
                                     <field name="cout_sous_traitant_1" attrs="{'invisible':[('sous_traitance_1', '=', False)]}"/>
                                 </group>
-                                <group name="right" string="Handling" attrs="{'invisible': [('type_operation', '!=', 'cch'),('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd')]}">
+                                <group name="right" string="Handling" attrs="{'invisible': [('transport', '!=', 'cch'),('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}">
                                     <field name="handling" context="{'default_is_compagnie_aerienne': True, 'default_is_company' : True}"/>
                                     <field name="cout_handling" />
                                 </group>
@@ -174,23 +200,23 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Fret" name="fret" attrs="{'invisible': [('type_operation', '!=', 'fret'),('type_operation', '!=', 'obc'),('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd')]}">
+                        <page string="Fret" name="fret" attrs="{'invisible': [('voie', 'not in', ('air', 'road'))]}">
                              <group>
                                 <group name="left" string="Fret">
                                     <field name="fret" context="{'default_is_compagnie_aerienne': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_fret" />
-                                    <field name="cout_bagage" attrs="{'invisible': [('type_operation', '!=', 'obc')]}"/>
+                                    <field name="cout_bagage" attrs="{'invisible': [('transport', '!=', 'obc')]}"/>
                                 </group>
                                 <group name="right" string="Divers">
                                     <field name="porteur" />
-                                    <field name="frais_divers" attrs="{'invisible': [('type_operation', '!=', 'obc')]}"/>
+                                    <field name="frais_divers" attrs="{'invisible': [('transport', '!=', 'obc')]}"/>
                                 </group>
-                                <group name="left" string="LTA"  attrs="{'invisible': [('type_operation', '!=', 'fret'),('type_operation', '!=', 'dtd')]}">
+                                <group name="left" string="LTA"  attrs="{'invisible': [('transport', '!=', 'fret'),('transport', '!=', 'dtd')]}">
                                     <field name="n_lta"/>
                                 </group>
                             </group>
                         </page>
-                        <page string="Maritine" name="maritine" attrs="{'invisible': [('type_operation', '!=', 'routier'),('type_operation', '!=', 'routier-trans')]}">
+                        <page string="Maritine" name="maritine" attrs="{'invisible': [('voie', '!=', 'sea')]}">
                              <group>
                                 <group name="left" string="Bateau">
                                     <field name="bateau" context="{'default_is_compagnie_maritine': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
@@ -200,13 +226,17 @@
                                     <field name="dedouanement_2" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_transitaire_2" />
                                 </group>
-                                <group name="left" string="Transbordement" attrs="{'invisible': [('type_operation', '!=', 'routier-trans')]}">
+                            </group>
+                        </page>
+                        <page string="Transvasement" name="transvasement" attrs="{'invisible': [('service', 'not in', ('transvasement')),('voie', 'not in', ('sea'))]}">
+                             <group>
+                                <group name="left" string="Transbordement">
                                     <field name="transbordement" context="{'default_is_compagnie_magasinnage': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_transbordement" />
                                 </group>
                             </group>
                         </page>
-                        <page string="DAP" name="dap" attrs="{'invisible': [('type_operation', '!=', 'dap'),('type_operation', '!=', 'obc'),('type_operation', '!=', 'charter'),('type_operation', '!=', 'dtd')]}">
+                        <page string="Post-acheminement" name="dap" attrs="{'invisible': [('transport', 'not in', ('dtd','atd'))]}">
                              <group>
                                 <group name="left" string="Transport">
                                     <field name="sous_traitance_2"/>
@@ -214,7 +244,7 @@
                                     <field name="vehicule_st_2" attrs="{'invisible': [('sous_traitance_2', '=', False)]}"/>
                                     <field name="cout_sous_traitant_2" attrs="{'invisible':[('sous_traitance_2', '=', False)]}"/>
                                 </group>
-                                <group name="right" string="Echange" attrs="{'invisible': [('type_operation', '!=', 'dap'),('type_operation', '!=', 'dtd')]}">
+                                <group name="right" string="Echange" attrs="{'invisible': [('transport', '!=', 'dap'),('transport', '!=', 'dtd')]}">
                                     <field name="echange" context="{'default_is_compagnie_aerienne': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_echange" />
                                 </group>
@@ -273,7 +303,7 @@
                                         <small><field name="type_voyage"/></small>
                                     </div>
                                     <div>
-                                        <small><field name="type_operation"/></small>
+                                        <small><field name="transport"/></small>
                                     </div>
                                 </strong>
                                 <div name="tags"/>
@@ -296,12 +326,12 @@
         <field name="model">cps.voyage</field>
         <field name="arch" type="xml">
             <tree string="Livraisons" decoration-danger="progress &lt; 45" decoration-warning="progress &gt; 45 and progress &lt; 70" decoration-success="progress &gt; 70">
-                <field name="default_code" />
+                <field name="name" />
                 <field name="client_id" />
 <!--                <field name="trajet_id" />-->
                 <field name="type_voyage" />
                 <field name="type_trajet" />
-                <field name="type_operation" />
+                <field name="transport" />
                 <field name="cout_total" />
                 <field name="prix" />
                 <field name="state_general" />

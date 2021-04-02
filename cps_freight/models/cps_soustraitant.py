@@ -26,7 +26,7 @@ class CpsSousTraitant(models.Model):
             if p.soustraitant_id is not False:
                 name = name + p.soustraitant_id.name
             if p.vehicule_id is not False:
-                name = name + " / " + p.vehicule_id.name
+                name = name + " / " + p.vehicule_id.licence_plate
             return name
 
     @api.depends('soustraitant_id','vehicule_id')
@@ -36,7 +36,7 @@ class CpsSousTraitant(models.Model):
             if len(p.soustraitant_id)>0:
                 name = name + p.soustraitant_id.name
             if len(p.vehicule_id) >0:
-                name = name + " / " + p.vehicule_id.name
+                name = name + " / " + p.vehicule_id.licence_plate
             p.name =  name
 
 

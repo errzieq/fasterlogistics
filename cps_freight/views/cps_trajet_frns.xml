@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record model="ir.ui.view" id="cps_trajet_form_view">
-        <field name="name">cps.trajet.form</field>
-        <field name="model">cps.trajet</field>
+    <record model="ir.ui.view" id="cps_trajet_frns_form_view">
+        <field name="name">cps.trajet.frns.form</field>
+        <field name="model">cps.trajet.frns</field>
         <field name="arch" type="xml">
             <form string="Gestion des trajets">
                 <sheet>
@@ -25,19 +25,19 @@
             </form>
         </field>
     </record>
-     <record model="ir.ui.view" id="cps_trajet_tree_view">
-        <field name="name">cps.trajet.tree</field>
-        <field name="model">cps.trajet</field>
+     <record model="ir.ui.view" id="cps_trajet_frns_tree_view">
+        <field name="name">cps.trajet.frns.tree</field>
+        <field name="model">cps.trajet.frns</field>
         <field name="arch" type="xml">
-            <tree string="Tarifs clients">
+            <tree string="Trajet">
                 <field name="partner_id" />
             </tree>
         </field>
     </record>
 
-	<record id="action_trajet" model="ir.actions.act_window">
-		<field name="name">Tarifs clients</field>
-		<field name="res_model">cps.trajet</field>
+	<record id="action_trajet_frns" model="ir.actions.act_window">
+		<field name="name">Tarifs sous-traitant</field>
+		<field name="res_model">cps.trajet.frns</field>
 		<!-- <field name="view_type">form</field> -->
 		<field name="view_mode">tree,form</field>
 	</record>

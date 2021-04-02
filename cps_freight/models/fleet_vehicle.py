@@ -13,5 +13,12 @@ class ResPartner(models.Model):
     type_vehicule = fields.Selection(string="Type véhicule", selection=[('type1', 'Type 1'),
                                                                        ('type2', 'Type 2'),
                                                                        ('type3', 'Type 3'),
+                                                                       ('type3a', 'Type 3A'),
                                                                        ('type4', 'Type 4'),
-                                                                       ('type5', 'Type 5')])
+                                                                       ('type5', 'Type 5'),
+                                                                       ('type6', 'Type 6'),
+                                                                       ('type7', 'Type 7'),
+                                                                       ('type8', 'Type 8'),
+                                                                       ('type9', 'Type 9'),
+                                                                       ('type10', 'Type 10')
+                                                                        ])

@@ -5,10 +5,10 @@ from odoo import models, fields, api
 
 class CpsTrajetLines(models.Model):
 
-    _name = 'cps.trajet.lines'
+    _name = 'cps.trajet.lines.frns'
     _description = "Lignes des trajets"
 
-    trajet_id = fields.Many2one('cps.trajet', 'Trajet')
+    trajet_id = fields.Many2one('cps.trajet.frns', 'Trajet')
     partner_id = fields.Many2one("res.partner", related='trajet_id.partner_id', store=True)
     lieu_ramassage = fields.Many2one("res.city", string='Ville de ramassage', required=True)
     lieu_livraison = fields.Many2one("res.city", string='Ville de livraison', required=True)
