@@ -159,7 +159,7 @@ class CpsVoyage(models.Model):
         print('self.vehicule_st_1.type_vehicule-----------------', self.vehicule_st_1.type_vehicule)
         print('self.vehicule_st_1.soustraitant_id.id-----------------', self.vehicule_st_1.soustraitant_id.id)
         if len(self.vehicule_parc_1)>0:
-            trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
+            trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('tarif_interne', '=', True)]).cout
         if len(self.vehicule_st_1)>0:
             trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.vehicule_st_1.soustraitant_id.id)]).cout
 

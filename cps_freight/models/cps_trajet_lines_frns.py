@@ -10,6 +10,7 @@ class CpsTrajetLines(models.Model):
 
     trajet_id = fields.Many2one('cps.trajet.frns', 'Trajet')
     partner_id = fields.Many2one("res.partner", related='trajet_id.partner_id', store=True)
+    tarif_interne = fields.Boolean(related='trajet_id.tarif_interne', store=True)
     lieu_ramassage = fields.Many2one("res.city", string='Ville de ramassage', required=True)
     lieu_livraison = fields.Many2one("res.city", string='Ville de livraison', required=True)
     type_vehicule = fields.Selection(string="Type véhicule", selection=[('type1', 'Type 1'),

@@ -8,6 +8,7 @@
                 <sheet>
                         <group name="left">
                             <field name="partner_id"/>
+                            <field name="tarif_interne"/>
                         </group>
                         <group>
                             <field name="trajet_lines" >
