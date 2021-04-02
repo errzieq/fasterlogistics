@@ -171,7 +171,7 @@
                                     <field name="sous_traitance_1"/>
                                     <field name="vehicule_parc_1" attrs="{'invisible': [('sous_traitance_1', '=', True)]}"/>
                                     <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
-                                    <field name="cout_sous_traitant_1" attrs="{'invisible':[('sous_traitance_1', '=', False)]}"/>
+                                    <field name="cout_sous_traitant_1"/>
                                 </group>
                             </group>
                         </page>
