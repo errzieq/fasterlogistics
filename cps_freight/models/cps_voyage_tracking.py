@@ -14,4 +14,5 @@ class CpsVoyageTracking(models.Model):
     date_tracking= fields.Datetime(string="Date")
     duree=fields.Float('Durée (min)')
     description = fields.Char('Déscription')
+    observation = fields.Char('Observation')
 
