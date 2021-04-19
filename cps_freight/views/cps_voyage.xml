@@ -380,7 +380,7 @@
                             </group>
                              <group>
                                 <button string="Créer commandes achats" name="action_generate_purchase_order" type="object"/>
-                                <button string="Créer commande vente" name="action_generate_sale_order" type="object"/>
+                                <button string="Créer commandes vente" name="action_generate_sale_order" type="object"/>
                              </group>
                         </page>
                     </notebook>
