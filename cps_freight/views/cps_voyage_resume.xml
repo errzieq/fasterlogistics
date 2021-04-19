@@ -9,6 +9,7 @@
                 <field name="type_prestataire" />
                 <field name="description" />
                 <field name="cout" />
+                <field name="currency_id" />
             </tree>
         </field>
     </record>

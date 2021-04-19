@@ -9,4 +9,8 @@ access_res_city,access_res_city,model_res_city,base.group_user,1,1,1,1
 access_cps_soustraitant,access_cps_soustraitant,model_cps_soustraitant,base.group_user,1,1,1,1
 access_cps_voyage_tracking,access_cps_voyage_tracking,model_cps_voyage_tracking,base.group_user,1,1,1,1
 access_cps_voyage_resume,access_cps_voyage_resume,model_cps_voyage_resume,base.group_user,1,1,1,1
+access_cps_voyage_soustraitant,access_cps_voyage_soustraitant,model_cps_voyage_soustraitant,base.group_user,1,1,1,1
+access_cps_voyage_parc,access_cps_voyage_parc,model_cps_voyage_parc,base.group_user,1,1,1,1
+access_cps_voyage_soustraitant2,access_cps_voyage_soustraitant2,model_cps_voyage_soustraitant2,base.group_user,1,1,1,1
+access_cps_voyage_parc2,access_cps_voyage_parc,model_cps_voyage_parc2,base.group_user,1,1,1,1
 access_cps_soustraitant_price,access_cps_soustraitant_price,model_cps_soustraitant_price,base.group_user,1,1,1,1

@@ -1,7 +1,7 @@
 """Inherited Res Partner Model."""
 # See LICENSE file for full copyright and licensing details.
 
-from odoo import models, fields
+from odoo import api, fields, models, _
 
 
 class ResPartner(models.Model):
@@ -22,3 +22,8 @@ class ResPartner(models.Model):
                                                                        ('type9', 'Type 9'),
                                                                        ('type10', 'Type 10')
                                                                         ])
+
+    @api.depends('license_plate')
+    def _compute_vehicle_name(self):
+        for record in self:
+            record.name = record.license_plate or _('No Plate')

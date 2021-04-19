@@ -7,13 +7,21 @@
             <form string="Gestion des opérations">
                 <header>
                     <field name="state_national" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,attente_liv,livre,annule,bloque" attrs="{'invisible': [('type_voyage', '!=', 'national')]}"/>
-                    <field name="state_cch" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,dedouanement,handling,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'cch')]}"/>
-                    <field name="state_dap" widget="statusbar" clickable="true" statusbar_visible="pret,attente_doc,echange,dedouanement,attente_chargement,charge,route,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'dap')]}"/>
-                    <field name="state_fret" widget="statusbar" clickable="true" statusbar_visible="pret,attente_chargement,attente_doc,landing,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'fret')]}"/>
-                    <field name="state_obc" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'obc')]}"/>
-                    <field name="state_charter_dtd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,released,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}"/>
-                    <field name="state_routier" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier')]}"/>
-                    <field name="state_routier_transbordement" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,transbordement,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier-trans')]}"/>
+                    <field name="state_dtd_road" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,released,route_2,livre,annule, bloque" attrs="{'invisible': [('transport', '!=', 'dtd')]}"/>
+                    <field name="state_dta" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,charge,route,dedouanement,handling,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'dta')]}"/>
+                    <field name="state_ata" widget="statusbar" clickable="true" statusbar_visible="pret,en_board,take_off,landed,released,annule,bloque" attrs="{'invisible': [('transport', '!=', 'ata')]}"/>
+                    <field name="state_atd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,dedouanement,handling,attente_chargement,attente_doc,charge,route,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'atd')]}"/>
+                    <field name="state_dtd_sea" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,amarrage,accostage,released,route_2,livre,annule,bloque" attrs="{'invisible': [('transport_sea', '!=', 'dtd')]}"/>
+                    <field name="state_dtp" widget="statusbar" clickable="true" statusbar_visible="pret, encours,attente_chargement,attente_doc,charge,route,dedouanement,handling,livre,annule,bloque" attrs="{'invisible': [('transport_sea', '!=', 'dtp')]}"/>
+                    <field name="state_ptp" widget="statusbar" clickable="true" statusbar_visible="pret,amarrage,accostage,landed,released,annule,bloque" attrs="{'invisible': [('transport_sea', '!=', 'ptp')]}"/>
+                    <field name="state_ptd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,dedouanement,attente_chargement,attente_doc,charge,route,livre,annule,bloque" attrs="{'invisible': [('transport_sea', '!=', 'ptd')]}"/>
+
+<!--                    <field name="state_dap" widget="statusbar" clickable="true" statusbar_visible="pret,attente_doc,echange,dedouanement,attente_chargement,charge,route,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'dap')]}"/>-->
+<!--                    <field name="state_ata" widget="statusbar" clickable="true" statusbar_visible="pret,attente_chargement,attente_doc,landing,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'fret')]}"/>-->
+<!--                    <field name="state_obc" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'obc')]}"/>-->
+<!--                    <field name="state_charter_dtd" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,route,dedouanement,en_board,take_off,landed,released,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}"/>-->
+<!--                    <field name="state_routier" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier')]}"/>-->
+<!--                    <field name="state_routier_transbordement" widget="statusbar" clickable="true" statusbar_visible="pret,encours,attente_chargement,attente_doc,dedouanement_zf,route,dedouanement,scanner,on_board,amarrage,transbordement,route_2,livre,annule,bloque" attrs="{'invisible': [('transport', '!=', 'routier-trans')]}"/>-->
                 </header>
 
                 <sheet>
@@ -58,46 +66,46 @@
                                 <span class="o_stat_text">Fact. vente</span>
                             </div>
                         </button>
-                        <button type="object"  attrs="{'invisible': [('mat_vehicule_parc_1', '=', False)]}"
-                            name="action_view_vehicule_parc_1"
-                            class="oe_stat_button" icon="fa-truck">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value" widget="statinfo">
-                                    <field name="mat_vehicule_parc_1" widget="statinfo" nolabel="1" class="mr4"/>
-                                </span>
-                                <span class="o_stat_text">Véhicule Parc</span>
-                            </div>
-                        </button>
-                        <button type="object"  attrs="{'invisible': [('mat_vehicule_parc_2', '=', False)]}"
-                            name="action_view_vehicule_parc_2"
-                            class="oe_stat_button" icon="fa-truck">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value" widget="statinfo">
-                                    <field name="mat_vehicule_parc_2" widget="statinfo" nolabel="1" class="mr4"/>
-                                </span>
-                                <span class="o_stat_text">Véhicule Parc</span>
-                            </div>
-                        </button>
-                        <button type="object"  attrs="{'invisible': [('mat_vehicule_sous_traitant_1', '=', False)]}"
-                            name="action_view_vehicule_soustraitant_1"
-                            class="oe_stat_button" icon="fa-truck">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value" widget="statinfo">
-                                    <field name="mat_vehicule_sous_traitant_1" widget="statinfo" nolabel="1" class="mr4"/>
-                                </span>
-                                <span class="o_stat_text">Sous-traitant</span>
-                            </div>
-                        </button>
-                        <button type="object"  attrs="{'invisible': [('mat_vehicule_sous_traitant_2', '=', False)]}"
-                            name="action_view_vehicule_soustraitant_2"
-                            class="oe_stat_button" icon="fa-truck">
-                            <div class="o_field_widget o_stat_info">
-                                <span class="o_stat_value" widget="statinfo">
-                                    <field name="mat_vehicule_sous_traitant_2" widget="statinfo" nolabel="1" class="mr4"/>
-                                </span>
-                                <span class="o_stat_text">Sous-traitant</span>
-                            </div>
-                        </button>
+<!--                        <button type="object"  attrs="{'invisible': [('mat_vehicule_parc_1', '=', False)]}"-->
+<!--                            name="action_view_vehicule_parc_1"-->
+<!--                            class="oe_stat_button" icon="fa-truck">-->
+<!--                            <div class="o_field_widget o_stat_info">-->
+<!--                                <span class="o_stat_value" widget="statinfo">-->
+<!--                                    <field name="mat_vehicule_parc_1" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                </span>-->
+<!--                                <span class="o_stat_text">Véhicule Parc</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object"  attrs="{'invisible': [('mat_vehicule_parc_2', '=', False)]}"-->
+<!--                            name="action_view_vehicule_parc_2"-->
+<!--                            class="oe_stat_button" icon="fa-truck">-->
+<!--                            <div class="o_field_widget o_stat_info">-->
+<!--                                <span class="o_stat_value" widget="statinfo">-->
+<!--                                    <field name="mat_vehicule_parc_2" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                </span>-->
+<!--                                <span class="o_stat_text">Véhicule Parc</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object"  attrs="{'invisible': [('mat_vehicule_sous_traitant_1', '=', False)]}"-->
+<!--                            name="action_view_vehicule_soustraitant_1"-->
+<!--                            class="oe_stat_button" icon="fa-truck">-->
+<!--                            <div class="o_field_widget o_stat_info">-->
+<!--                                <span class="o_stat_value" widget="statinfo">-->
+<!--                                    <field name="mat_vehicule_sous_traitant_1" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                </span>-->
+<!--                                <span class="o_stat_text">Sous-traitant</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
+<!--                        <button type="object"  attrs="{'invisible': [('mat_vehicule_sous_traitant_2', '=', False)]}"-->
+<!--                            name="action_view_vehicule_soustraitant_2"-->
+<!--                            class="oe_stat_button" icon="fa-truck">-->
+<!--                            <div class="o_field_widget o_stat_info">-->
+<!--                                <span class="o_stat_value" widget="statinfo">-->
+<!--                                    <field name="mat_vehicule_sous_traitant_2" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                </span>-->
+<!--                                <span class="o_stat_text">Sous-traitant</span>-->
+<!--                            </div>-->
+<!--                        </button>-->
                      </div>
                      <div class="oe_title">
                         <label class="oe_edit_only" for="name"/>
@@ -113,10 +121,13 @@
                             <field name="type_voyage" attrs="{'invisible': [('service', '!=', 'transport')]}"/>
                             <field name="voie" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
                             <field name="type_trajet" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
-                            <field name="type_prestation" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
-                            <field name="type_parcours" attrs="{'invisible': [('type_voyage', 'not in', ('international','national'))]}"/>
-                            <field name="transport" attrs="{'invisible': [('voie', '!=', 'road'),('voie', '!=', 'air')]}"/>
+                            <field name="type_prestation" attrs="{'invisible': [('type_voyage', 'not in', ('national'))]}"/>
+                            <field name="type_parcours" attrs="{'invisible': [('type_voyage', 'not in', ('national'))]}"/>
+                            <field name="transport" attrs="{'invisible': [('voie', 'not in', ('air'))]}"/>
+                            <field name="transport_sea" attrs="{'invisible': [('voie', 'not in', ('sea','road'))]}"/>
                             <field name="type_transport" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
+                            <field name="type_chemin" invisible="1"/>
+                            <field name="cch" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
                         </group>
                         <group name="right">
                             <field name="priorite" widget="priority"/>
@@ -139,6 +150,16 @@
                                     <field name="zip_livraison"/>
                                 </group>
                              </group>
+                            <group>
+                                <field name="ramassage_supplementaire_ids" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"  widget="many2many_tags">
+<!--                                    <tree editable="bottom">-->
+<!--                                        <field name="display_name"/>-->
+<!--                                        <field name="ville"/>-->
+<!--                                        <field name="country_id"/>-->
+<!--                                        <field name="zip"/>-->
+<!--                                    </tree>-->
+                                </field>
+                            </group>
                              <group string="Cout">
                                 <group name="left">
                                     <field name="cout_total"/>
@@ -153,7 +174,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Colisage" name="genecolisageral">
+                        <page string="Colisage" name="Colisage">
                              <group>
                                 <group string="Colisage">
                                     <field name="type_ramassage"/>
@@ -167,40 +188,100 @@
                         </page>
                         <page string="National" name="general" attrs="{'invisible': [('type_voyage', '!=', 'national')]}">
                              <group>
-                                <group name="right">
-                                    <field name="sous_traitance_1"/>
-                                    <field name="vehicule_parc_1" attrs="{'invisible': [('sous_traitance_1', '=', True)]}"/>
-                                    <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
-                                    <field name="cout_sous_traitant_1"/>
-                                </group>
+                                <field name="sous_traitance_1"/>
+                                <field name="vehicule_parc_1_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
+                                    <tree name="Colis" editable="bottom">
+                                        <field name="vehicule_id" />
+                                        <field name="mat_vehicule" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
+                                <field name="vehicule_st1_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+                                    <tree name="Vehicule" editable="bottom">
+                                        <field name="soustraitant_id"/>
+                                        <field name="vehicule_st_1"/>
+                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="client_id" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
                             </group>
                         </page>
-                        <page string="Pré-acheminement" name="cch" attrs="{'invisible': [('service', 'not in', ('cch')), ('transport', 'not in', ('dtd','dta'))]}">
+                        <page string="Pré-acheminement" name="cch" attrs="{'invisible': [('type_chemin', 'in', ('post',False))]}">
+                            <group string="Transport national">
+                                <field name="sous_traitance_1"/>
+                                <field name="vehicule_parc_1_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
+                                    <tree name="Colis" editable="bottom">
+                                        <field name="vehicule_id" />
+                                        <field name="mat_vehicule" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
+                                <field name="vehicule_st1_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+                                    <tree name="Vehicule" editable="bottom">
+                                        <field name="soustraitant_id"/>
+                                        <field name="vehicule_st_1"/>
+                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="client_id" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
+                             </group>
                              <group>
-                                <group name="left" string="Transport national">
-                                    <field name="sous_traitance_1"/>
-                                    <field name="vehicule_parc_1" attrs="{'invisible': [('sous_traitance_1', '=', True)]}"/>
-                                    <field name="vehicule_st_1" attrs="{'invisible': [('sous_traitance_1', '=', False)]}"/>
-                                    <field name="cout_sous_traitant_1" attrs="{'invisible':[('sous_traitance_1', '=', False)]}"/>
+                                <group name="left" string="Dédouanement Z.F.">
+                                    <field name="dedouanement_zf" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
+                                    <field name="cout_transitaire_zf"  />
                                 </group>
                                 <group name="right" string="Handling" attrs="{'invisible': [('transport', '!=', 'cch'),('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}">
                                     <field name="handling" context="{'default_is_compagnie_aerienne': True, 'default_is_company' : True}"/>
                                     <field name="cout_handling" />
                                 </group>
-                                <group name="left" string="Dédouanement Z.F.">
-                                    <field name="dedouanement_zf" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
-                                    <field name="cout_transitaire_zf"  />
-                                </group>
-                                <group name="right" string="Divers">
+                                <group name="left" string="Divers">
                                     <field name="porteur"/>
                                 </group>
-                                <group name="left" string="Dédouanement">
+                                <group name="right" string="Divers">
                                     <field name="dedouanement_1" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_transitaire_1" />
                                 </group>
                             </group>
                         </page>
-                        <page string="Fret" name="fret" attrs="{'invisible': [('voie', 'not in', ('air', 'road'))]}">
+                        <page string="Fret" name="fret" attrs="{'invisible': [('voie', 'not in', ('air'))]}">
                              <group>
                                 <group name="left" string="Fret">
                                     <field name="fret" context="{'default_is_compagnie_aerienne': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
@@ -216,7 +297,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Maritine" name="maritine" attrs="{'invisible': [('voie', '!=', 'sea')]}">
+                        <page string="Maritine" name="maritine" attrs="{'invisible': [('voie', 'not in', ('sea', 'road'))]}">
                              <group>
                                 <group name="left" string="Bateau">
                                     <field name="bateau" context="{'default_is_compagnie_maritine': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
@@ -236,22 +317,53 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Post-acheminement" name="dap" attrs="{'invisible': [('transport', 'not in', ('dtd','atd'))]}">
-                             <group>
-                                <group name="left" string="Transport">
-                                    <field name="sous_traitance_2"/>
-                                    <field name="vehicule_parc_2" attrs="{'invisible': [('sous_traitance_2', '=', True)]}"/>
-                                    <field name="vehicule_st_2" attrs="{'invisible': [('sous_traitance_2', '=', False)]}"/>
-                                    <field name="cout_sous_traitant_2" attrs="{'invisible':[('sous_traitance_2', '=', False)]}"/>
-                                </group>
-                                <group name="right" string="Echange" attrs="{'invisible': [('transport', '!=', 'dap'),('transport', '!=', 'dtd')]}">
+                        <page string="Post-acheminement" name="dap"  attrs="{'invisible': [('type_chemin', 'in', ('pre',False))]}">
+                             <group string="Transport international">
+                                <field name="sous_traitance_2"/>
+                                <field name="vehicule_parc2_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
+                                    <tree name="Colis" editable="bottom">
+                                        <field name="vehicule_id" />
+                                        <field name="mat_vehicule" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
+                                <field name="vehicule_st2_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+                                    <tree name="Vehicule" editable="bottom">
+                                        <field name="soustraitant_id"/>
+                                        <field name="vehicule_st_1"/>
+                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="type_vehicule"/>
+                                        <field name="lieu_ramassage" invisible="1"/>
+                                        <field name="lieu_livraison" invisible="1"/>
+                                        <field name="client_id" invisible="1"/>
+                                        <field name="ville_ramassage" invisible="1"/>
+                                        <field name="ville_livraison" invisible="1"/>
+                                        <field name="type_voyage" invisible="1"/>
+                                        <field name="type_parcours" invisible="1"/>
+                                        <field name="cout" />
+                                        <field name="prix" />
+                                        <field name="currency_id" />
+                                    </tree>
+                                </field>
+                            </group>
+                            <group>
+                                <group name="left" string="Echange" attrs="{'invisible': [('transport', '!=', 'dap'),('transport', '!=', 'dtd')]}">
                                     <field name="echange" context="{'default_is_compagnie_aerienne': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_echange" />
                                 </group>
-                                <group name="left" string="LTA">
+                                <group name="right" string="LTA">
                                     <field name="n_lta"/>
                                 </group>
-                                <group name="right" string="Dédouanement">
+                                <group name="left" string="Dédouanement">
                                     <field name="dedouanement_2" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_transitaire_2" />
                                 </group>
@@ -268,7 +380,7 @@
                             </group>
                              <group>
                                 <button string="Créer commandes achats" name="action_generate_purchase_order" type="object"/>
-                                <button string="Créer Facture vente" name="action_generate_sale_order" type="object"/>
+                                <button string="Créer commande vente" name="action_generate_sale_order" type="object"/>
                              </group>
                         </page>
                     </notebook>

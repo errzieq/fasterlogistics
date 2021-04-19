@@ -26,6 +26,8 @@
         'views/cps_soustraitant.xml',
         'views/cps_voyage_tracking.xml',
         'views/cps_voyage_resume.xml',
+        'views/purchase_order.xml',
+        'views/account_move.xml',
         'views/cps_voyage.xml',
         'views/fleet_vehicle.xml',
         'views/res_partner.xml',

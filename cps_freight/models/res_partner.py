@@ -12,6 +12,8 @@ class ResPartner(models.Model):
     liste_voyages = fields.One2many('cps.voyage', 'client_id', 'Liste des voyages')
     liste_vehicules = fields.One2many('fleet.vehicle', 'soustraitant_id', 'Liste des véhicules')
 
+    ramassage_supplementaire_id = fields.Many2one('cps.voyage', 'Ramassages supplémentaires')
+
     is_transitaire = fields.Boolean(string="Transitaire")
     is_soutraitant = fields.Boolean(string="Sous-traitant")
     is_compagnie_aerienne = fields.Boolean(string="Compagnie aerienne")

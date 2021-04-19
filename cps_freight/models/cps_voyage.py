@@ -12,38 +12,50 @@ class CpsVoyage(models.Model):
 
     progress = fields.Float("Progression", compute='compute_progress_state', store=True, group_operator="avg", help="Display progress of current task.")
 
-    state_national = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('attente_liv','Att. livr.'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_cch = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('dedouanement','Dédouanement'), ('handling','Handling'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_dap = fields.Selection([('pret','Pret'),('attente_doc','Att. Doc.'), ('echange','En echange'),  ('dedouanement','Dédouanement'), ('attente_chargement','Att. Char.'), ('charge','Chargé'), ('route','En route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_fret = fields.Selection([('pret','Pret'),('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('landing','Landing'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_obc = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_charter_dtd = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_routier = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_routier_transbordement = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    #STATES
+    # state_cch = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('dedouanement','Dédouanement'), ('handling','Handling'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_dap = fields.Selection([('pret','Pret'),('attente_doc','Att. Doc.'), ('echange','En echange'),  ('dedouanement','Dédouanement'), ('attente_chargement','Att. Char.'), ('charge','Chargé'), ('route','En route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_fret = fields.Selection([('pret','Pret'),('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('landing','Landing'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_obc = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_charter_dtd = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_routier = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    # state_routier_transbordement = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
     state_general =  fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'),('charge','Chargé'), ('attente_liv','Att. Liv.'),('handling','Handling'),('echange','Echange'),('landing','Landing'),('en_board','On board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
 
-    date= fields.Datetime(string="Date")
+    state_national = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('attente_liv','Att. livr.'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_dtd_road = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_dta = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('dedouanement','Dédouanement'), ('handling','Handling'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_atd = fields.Selection([('pret','Pret'), ('encours','En cours'), ('dedouanement','Dédouanement'), ('handling','Handling'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_ata = fields.Selection([('pret','Pret'), ('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released')], string='Etat', default='pret')
+
+    state_dtd_sea = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('amarrage','Amarrage'),('accostage','Accostage'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_dtp = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('dedouanement','Dédouanement'), ('handling','Handling'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_ptd = fields.Selection([('pret','Pret'), ('encours','En cours'), ('dedouanement','Dédouanement'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_ptp = fields.Selection([('pret','Pret'),('en_board','En board'),('amarrage','Amarrage'),('accostage','Accostage'),('released','Released')], string='Etat', default='pret')
+
+    #GENERAL
+    date= fields.Datetime(string="Date", default=fields.Date.today())
     default_code = fields.Char("N° Voyage")
     priorite = fields.Selection([('faible','Faible'),('moyen','Moyen'),('eleve','Elevé'), ('prioritaire','Prioritaire')], string='Priorité', default='faible')
     client_id = fields.Many2one("res.partner", string='Client', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)])
     ref_client = fields.Char("Référence Client")
-
-    service = fields.Selection([('transport','Transport'), ('consignation','Consignation'), ('transvasement','Transvasement'),('magasinage','Magasinage'), ('location','Location'), ('cch','CCH')], string='Service', default='transport')
-    type_voyage  = fields.Selection([('national','National'), ('international','International')], string='Type')
-    voie = fields.Selection([('road','Road'),('sea','Sea'),('air','Air')], string='Voie')
-    type_prestation = fields.Selection([('standard','Standard'), ('premium','Premium')], string='Type préstation')
-    type_parcours = fields.Selection([('oneway','Single trip'), ('return','Return way'), ('round','Round trip')], string='Parcours')
-    type_trajet = fields.Selection([('import','Import'), ('export','Export'), ('domestique','Domestique')], string='Catégorie')
-    transport = fields.Selection([('dtd','DTD'), ('dta','DTA'), ('ata','ATA'), ('atd','ATD')], string='Transport')
-    type_transport = fields.Selection([('charter','Charter'), ('handcarry','Hand carry'), ('rinter','R-inter')], string='Type transport')
-
-    # ton = fields.Char("TON")
-    ref_tmc = fields.Char("Ref TMC")
-    # prestation_id = fields.Many2one("cps.prestation", string='Type préstation')
-    # name = fields.Char('Nom du voyage', compute='compute_name', store=True)
     name = fields.Char('Nom du voyage')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     currency_id = fields.Many2one(related="company_id.currency_id", string="devise")
+    ref_tmc = fields.Char("Ref TMC")
+
+    #PARAMETRAGE VOYAGE
+    service = fields.Selection([('transport','Transport'), ('consignation','Consignation'), ('transvasement','Transvasement'),('magasinage','Magasinage'), ('location','Location')], string='Service', default='transport')
+    type_voyage  = fields.Selection([('national','National'), ('international','International')], string='Type')
+    voie = fields.Selection([('road','Road'),('sea','Sea'),('air','Air')], string='Voie')
+    type_trajet = fields.Selection([('import','Import'), ('export','Export'), ('domestique','Domestique')], string='Catégorie')
+    type_parcours = fields.Selection([('oneway','Single trip'), ('return','Return way'), ('round','Round trip')], string='Parcours')
+    cch = fields.Boolean('CCH ?')
+    type_prestation = fields.Selection([('standard','Standard'), ('premium','Premium')], string='Type préstation')
+    transport = fields.Selection([('dtd','DTD'), ('dta','DTA'), ('ata','ATA'), ('atd','ATD')], string='Transport')
+    transport_sea = fields.Selection([('dtd','DTD'), ('dtp','DTP'), ('ptp','PTP'), ('ptd','PTD')], string='Transport')
+    type_transport = fields.Selection([('charter','Charter'), ('handcarry','Hand carry')], string='Type transport')
+    type_chemin = fields.Selection([('pre', 'Pré-acheminement'),('post', 'Post-acheminement'),('pre-post', 'Acheminement complet')], string='Type chemin')
 
     lieu_ramassage = fields.Many2one("res.partner", string='Lieu de ramassage', domain=[('type','=', 'delivery')], required=True)
     lieu_livraison = fields.Many2one("res.partner", string='Lieu de livraison', domain=[('type','=', 'delivery')], required=True)
@@ -52,21 +64,24 @@ class CpsVoyage(models.Model):
     zip_ramassage = fields.Char(related='lieu_ramassage.zip', string='Code postal', store=True)
     zip_livraison = fields.Char(related='lieu_livraison.zip', string='Code postal', store=True)
 
+    ramassage_supplementaire_ids = fields.One2many('res.partner', 'ramassage_supplementaire_id', 'Ramassages supplémentaires')
+
+    #COLISAGE
     type_ramassage = fields.Selection([('ftl','F.T.L.'), ('groupage','Groupage')], string='Type ramassage', default='ftl')
     colisage_ids = fields.One2many('cps.colisage', 'voyage_id', string='Liste des colis')
 
+    #PRIX
     cout_trajet = fields.Float(string="Cout du trajet", store=True)
-    cout_total = fields.Monetary( compute='compute_cout', string="Cout total", store=True)
-    prix = fields.Monetary(string="Prix de vente", compute='compute_price' , store=True)
-    # cout_total = fields.Monetary(string="Cout total")
-    # prix = fields.Monetary(string="Prix de vente")
+    cout_total = fields.Monetary(compute='compute_cout', string="Cout total", store=True)
+    prix = fields.Monetary(compute='compute_prix',string="Prix de vente",inverse='uncompute_price', store=True)
     marge = fields.Float('Marge (%)')
+
+    #VEHICULES
     sous_traitance_1 = fields.Boolean('Sous-traitance ?')
-    vehicule_parc_1 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '=', False)])
-    mat_vehicule_parc_1 = fields.Char('Matricule', related='vehicule_parc_1.license_plate')
-    vehicule_st_1 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '!=', False)])
-    cout_sous_traitant_1 = fields.Monetary(string="Cout véhicule", compute='compute_price_frns', store=True)
-    mat_vehicule_sous_traitant_1 = fields.Char('Matricule', related='vehicule_st_1.license_plate')
+    vehicule_st1_ids = fields.One2many('cps.voyage.soustraitant', 'voyage_id', 'Sous-traitants')
+    vehicule_parc_1_ids = fields.One2many('cps.voyage.parc', 'voyage_id', 'Parc Faster')
+    vehicule_st2_ids = fields.One2many('cps.voyage.soustraitant2', 'voyage_id', 'Sous-traitants')
+    vehicule_parc2_ids = fields.One2many('cps.voyage.parc2', 'voyage_id', 'Parc Faster')
 
     # ----CCH fields--------
     dedouanement_1 = fields.Many2one("res.partner", string='Transitaire', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
@@ -91,11 +106,6 @@ class CpsVoyage(models.Model):
     dedouanement_2 = fields.Many2one("res.partner", string='Transitaire', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transitaire_2 = fields.Monetary(string="Cout")
     sous_traitance_2 = fields.Boolean('Sous-traitance ?')
-    vehicule_parc_2 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '=', False)])
-    mat_vehicule_parc_2 = fields.Char('Matricule', related='vehicule_parc_2.license_plate')
-    vehicule_st_2 = fields.Many2one('fleet.vehicle', 'Vehicule parc', domain=[('soustraitant_id', '!=', False)])
-    mat_vehicule_sous_traitant_2 = fields.Char('Matricule', related='vehicule_st_2.license_plate')
-    cout_sous_traitant_2 = fields.Monetary(string="Cout")
 
 
     #INTER-ROUTIER
@@ -114,21 +124,28 @@ class CpsVoyage(models.Model):
     facture_vente_ids = fields.One2many('account.move', 'voyage_id', domain=[('move_type', '=', 'out_invoice')], string="Factures de vente")
     total_facture_vente = fields.Float('Factures ventes', compute="compute_facture_vente_amount")
 
-    commande_achat_ids = fields.One2many('purchase.order', 'voyage_id', string="Factures d'achat")
+    #Documents achat
+    commande_achat_ids = fields.One2many('purchase.order', 'voyage_id', string="Commandes d'achat")
     total_commandes_achats = fields.Float('Commandes achats', compute="compute_commande_achat_amount")
-    commande_vente_ids = fields.One2many('sale.order', 'voyage_id', string="Factures de vente")
+    commande_vente_ids = fields.One2many('sale.order', 'voyage_id', string="Commandes de vente")
     total_commandes_vente = fields.Float('Commandes ventes', compute="compute_commande_vente_amount")
 
     #TRacking et resumé
     tracking_ids = fields.One2many('cps.voyage.tracking', 'voyage_id', string='Tracking du voyage')
     resume_ids = fields.One2many('cps.voyage.resume', 'voyage_id', string='Résumé du voyage')
 
-    # @api.onchange('vehicule_st_1')
-    # def onchange_vehicule_soustraitant(self):
-    #     vehicule_sous_traitant = self.env['cps.soustraitant.price'].search([('trajet_id', '=', self.trajet_id.id),('vehicule_st_1', '=', self.vehicule_st_1.id)],order='id desc', limit=1)
-    #     self.cout_sous_traitant_1 = vehicule_sous_traitant.price
-    #     if self.type_voyage=='national':
-    #         self.cout_trajet = self.cout_sous_traitant_1
+    def uncompute_price(self):
+        print('test')
+
+    @api.onchange('transport', 'transport_sea')
+    def onchange_transport(self):
+        self.type_chemin=False
+        if self.transport =='dta' or self.transport_sea =='dtp' :
+            self.type_chemin='pre'
+        if self.transport=='atd' or self.transport_sea =='ptd' :
+            self.type_chemin='post'
+        if self.transport=='dtd' or self.transport_sea =='dtd' :
+            self.type_chemin='pre-post'
 
     @api.model
     def create (self, vals):
@@ -144,29 +161,34 @@ class CpsVoyage(models.Model):
         self.compute_state(values)
         return voyage
 
-    @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st_1','type_voyage','client_id')
-    def compute_price(self):
-        trajet_price = 0
-        if len(self.vehicule_parc_1)>0:
-            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
-        if len(self.vehicule_st_1)>0:
-            trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
-        self.prix = trajet_price
+    # @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st1_ids','type_parcours','client_id')
+    # def compute_price(self):
+    #     for p in self:
+    #         trajet_price = 0
+    #         for vehicule_st_1_id in p.vehicule_st1_ids:
+    #             # print('vahcule---------------------', vehicule_st_1_id)
+    #             trajet_price += p.env['cps.trajet.lines'].search([('lieu_ramassage', '=', p.ville_ramassage.id), ('lieu_livraison', '=', p.ville_livraison.id), ('type_vehicule', '=', vehicule_st_1_id.type_vehicule), ('type_voyage', '=', p.type_parcours), ('partner_id', '=', p.client_id.id)]).cout
 
-    @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st_1','type_voyage','client_id')
-    def compute_price_frns(self):
-        trajet_price = 0
-        print('self.vehicule_st_1.type_vehicule-----------------', self.vehicule_st_1.type_vehicule)
-        print('self.vehicule_st_1.soustraitant_id.id-----------------', self.vehicule_st_1.soustraitant_id.id)
-        if len(self.vehicule_parc_1)>0:
-            trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('tarif_interne', '=', True)]).cout
-        if len(self.vehicule_st_1)>0:
-            trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.vehicule_st_1.soustraitant_id.id)]).cout
+        # if len(self.vehicule_parc_1)>0:
+        #     trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
+        # if len(self.vehicule_st_1)>0:
+        #     trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
+        # self.prix = trajet_price
 
-        self.cout_sous_traitant_1 = trajet_price
+    # @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st_1','type_voyage','client_id')
+    # def compute_price_frns(self):
+    #     trajet_price = 0
+    #     print('self.vehicule_st_1.type_vehicule-----------------', self.vehicule_st_1.type_vehicule)
+    #     print('self.vehicule_st_1.soustraitant_id.id-----------------', self.vehicule_st_1.soustraitant_id.id)
+    #     if len(self.vehicule_parc_1)>0:
+    #         trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('tarif_interne', '=', True)]).cout
+    #     if len(self.vehicule_st_1)>0:
+    #         trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.vehicule_st_1.soustraitant_id.id)]).cout
+    #
+    #     self.cout = trajet_price
 
 
-    @api.depends('state_national','state_cch','state_dap','state_fret','state_charter_dtd','state_routier','state_routier_transbordement')
+    @api.depends('state_national')
     def compute_progress_state(self):
         i=0
         progress=0
@@ -254,10 +276,18 @@ class CpsVoyage(models.Model):
             if p.cout_trajet > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Cout du voyage ", 'cout': p.cout_trajet})
-            if p.cout_sous_traitant_1 > 0:
-                if len(p.vehicule_st_1)>0:
-                    product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_st_1.vehicule_id.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_st_1.soustraitant_id.id, 'cout': p.cout_sous_traitant_1})
+            for vehicule_st_1_id in p.vehicule_st1_ids:
+                product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st_1_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st_1_id.soustraitant_id.id, 'cout': vehicule_st_1_id.cout})
+            for vehicule_parc_1_id in p.vehicule_parc_1_ids:
+                product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc_1_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc_1_id.cout})
+            for vehicule_st2_id in p.vehicule_st2_ids:
+                product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st2_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st2_id.soustraitant_id.id, 'cout': vehicule_st2_id.cout})
+            for vehicule_parc2_id in p.vehicule_parc2_ids:
+                product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc2_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc2_id.cout})
             if p.cout_transitaire_1 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_1.id, 'cout': p.cout_transitaire_1})
@@ -279,10 +309,6 @@ class CpsVoyage(models.Model):
             if p.cout_transitaire_2 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_2.id, 'cout': p.cout_transitaire_2})
-            if p.cout_sous_traitant_2 > 0:
-                if len(p.vehicule_st_2)>0:
-                    product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
-                    p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Sous-traitance véhicule " + p.vehicule_st_2.name , 'type_prestataire':'sous-traitant', 'client_id': p.vehicule_st_2.soustraitant_id.id, 'cout': p.cout_sous_traitant_2})
             if p.cout_bateau > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de bateau " , 'type_prestataire':'maritine', 'client_id': p.bateau.id, 'cout': p.cout_bateau})
@@ -331,14 +357,14 @@ class CpsVoyage(models.Model):
             if len(p.client_id) > 0:
                 pOrder = self.env['purchase.order'].create({
                     'company_id': self.env.user.company_id.id,
-                    'partner_id': self.client_id.id,
+                    'partner_id': p.client_id.id,
                     'voyage_id': self.id,
                     'date_order': fields.datetime.now(),
                     'date_planned': fields.datetime.now(),
-                    'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
+                    'currency_id': p.currency_id.id,
                     'order_line': [(0, 0, {
                                     'product_id': p.product_id.id,
-                                    'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
+                                    'currency_id': p.currency_id.id,
                                     'name': p.description,
                                     'product_uom_qty': 1,
                                     'product_qty': 1,
@@ -535,10 +561,25 @@ class CpsVoyage(models.Model):
         }
         return result
 
-    @api.depends('cout_trajet','cout_sous_traitant_1','cout_transitaire_1','cout_handling','cout_echange','cout_fret','cout_bagage','frais_divers','cout_transitaire_2','cout_sous_traitant_2','cout_bateau','cout_transitaire_zf','cout_transbordement')
+    @api.depends('vehicule_st1_ids','vehicule_parc_1_ids','cout_trajet','cout_transitaire_1','cout_handling','cout_echange','cout_fret','cout_bagage','frais_divers','cout_transitaire_2','cout_bateau','cout_transitaire_zf','cout_transbordement')
     def compute_cout(self):
         for p in self:
-            p.cout_total= p.cout_trajet+p.cout_sous_traitant_1+p.cout_transitaire_1+p.cout_handling+p.cout_echange + p.cout_fret + p.cout_bagage+ p.frais_divers+ p.cout_transitaire_2+ p.cout_sous_traitant_2+ p.cout_bateau+ p.cout_transitaire_zf+ p.cout_transbordement
+            p.cout_total=0
+            for resume in self.resume_ids:
+                p.cout_total+=resume.cout
+
+    @api.depends('vehicule_st1_ids','vehicule_parc_1_ids','vehicule_st2_ids','vehicule_parc2_ids')
+    def compute_prix(self):
+        for p in self:
+            p.prix=0
+            for vehicule_st1_id in self.vehicule_st1_ids:
+                p.prix+=vehicule_st1_id.prix
+            for vehicule_st2_id in self.vehicule_st2_ids:
+                p.prix+=vehicule_st2_id.prix
+            for vehicule_parc_id in self.vehicule_parc_1_ids:
+                p.prix+=vehicule_parc_id.prix
+            for vehicule_parc2_ids in self.vehicule_parc2_ids:
+                p.prix+=vehicule_parc2_ids.prix
 
     def set_price(self):
         for p in self:

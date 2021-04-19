@@ -9,6 +9,10 @@ from . import cps_purchase_order
 from . import cps_sale_order
 from . import cps_voyage_tracking
 from . import cps_voyage_resume
+from . import cps_voyage_soustraitant
+from . import cps_voyage_parc
+from . import cps_voyage_soustraitant2
+from . import cps_voyage_parc2
 from . import fleet_vehicle
 from . import account_move
 from . import cps_partner_price
