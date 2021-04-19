@@ -187,8 +187,7 @@ class CpsVoyage(models.Model):
     #
     #     self.cout = trajet_price
 
-
-    @api.depends('state_national')
+    @api.depends('state_national','state_dtd_sea','state_dtp','state_ptd','state_ptp','state_dtd_road','state_dta','state_atd','state_ata')
     def compute_progress_state(self):
         i=0
         progress=0
@@ -199,42 +198,56 @@ class CpsVoyage(models.Model):
                         i+=1
                         if state==s.state_national:
                             progress=i / (len(dict(s._fields['state_national'].selection))-2)*100
-            if s.transport=="cch":
-                if s.state_cch!="pret" and s.state_cch!="bloque" and  s.state_cch!="annule" :
-                    for state in dict(s._fields['state_cch'].selection).keys():
+            if s.transport=="dtd":
+                if s.state_dtd_road!="pret" and s.state_dtd_road!="bloque" and  s.state_dtd_road!="annule" :
+                    for state in dict(s._fields['state_dtd_road'].selection).keys():
                         i+=1
-                        if state==s.state_cch:
-                            progress=i / (len(dict(s._fields['state_cch'].selection))-2)*100
-            if s.transport=="dap":
-                if s.state_dap!="pret" and s.state_dap!="bloque" and  s.state_dap!="annule" :
-                    for state in dict(s._fields['state_dap'].selection).keys():
+                        if state==s.state_dtd_road:
+                            progress=i / (len(dict(s._fields['state_dtd_road'].selection))-2)*100
+            if s.transport=="dta":
+                if s.state_dta!="pret" and s.state_dta!="bloque" and  s.state_dta!="annule" :
+                    for state in dict(s._fields['state_dta'].selection).keys():
                         i+=1
-                        if state==s.state_dap:
-                            progress=i / (len(dict(s._fields['state_dap'].selection))-2)*100
-            if s.transport=="fret":
-                if s.state_fret!="pret" and s.state_fret!="bloque" and  s.state_fret!="annule" :
-                    for state in dict(s._fields['state_fret'].selection).keys():
+                        if state==s.state_dta:
+                            progress=i / (len(dict(s._fields['state_dta'].selection))-2)*100
+            if s.transport=="atd":
+                if s.state_atd!="pret" and s.state_atd!="bloque" and  s.state_atd!="annule" :
+                    for state in dict(s._fields['state_atd'].selection).keys():
                         i+=1
-                        if state==s.state_fret:
-                            progress=i / (len(dict(s._fields['state_fret'].selection))-2)*100
-            if s.transport=="charter" or s.transport=="dtd":
-                if s.state_charter_dtd!="pret" and s.state_charter_dtd!="bloque" and  s.state_charter_dtd!="annule" :
-                    for state in dict(s._fields['state_charter_dtd'].selection).keys():
+                        if state==s.state_atd:
+                            progress=i / (len(dict(s._fields['state_atd'].selection))-2)*100
+            if s.transport=="ata":
+                if s.state_ata!="pret" and s.state_ata!="bloque" and  s.state_ata!="annule" :
+                    for state in dict(s._fields['state_ata'].selection).keys():
                         i+=1
-                        if state==s.state_charter_dtd:
-                            progress=i / (len(dict(s._fields['state_charter_dtd'].selection))-2)*100
-            if s.transport=="routier":
-                if s.state_routier!="pret" and s.state_routier!="bloque" and  s.state_routier!="annule" :
-                    for state in dict(s._fields['state_routier'].selection).keys():
+                        if state==s.state_ata:
+                            progress=i / (len(dict(s._fields['state_ata'].selection))-2)*100
+            if s.transport_sea=="dtd":
+                if s.state_dtd_sea!="pret" and s.state_dtd_sea!="bloque" and  s.state_dtd_sea!="annule" :
+                    for state in dict(s._fields['state_dtd_sea'].selection).keys():
                         i+=1
-                        if state==s.state_routier:
-                            progress=i / (len(dict(s._fields['state_routier'].selection))-2)*100
-            if s.transport=="routier_transbordement-trans":
-                if s.state_routier_transbordement!="pret" and s.state_routier_transbordement!="bloque" and  s.state_routier_transbordement!="annule" :
-                    for state in dict(s._fields['state_routier_transbordement'].selection).keys():
+                        if state==s.state_dtd_sea:
+                            progress=i / (len(dict(s._fields['state_dtd_sea'].selection))-2)*100
+            if s.transport_sea=="dtp":
+                if s.state_dtp!="pret" and s.state_dtp!="bloque" and  s.state_dtp!="annule" :
+                    for state in dict(s._fields['state_dtp'].selection).keys():
                         i+=1
-                        if state==s.state_routier_transbordement:
-                            progress=i / (len(dict(s._fields['state_routier_transbordement'].selection))-2)*100
+                        if state==s.state_dtp:
+                            progress=i / (len(dict(s._fields['state_dtp'].selection))-2)*100
+            if s.transport_sea=="ptd":
+                if s.state_ptd!="pret" and s.state_ptd!="bloque" and  s.state_ptd!="annule" :
+                    for state in dict(s._fields['state_ptd'].selection).keys():
+                        i+=1
+                        if state==s.state_ptd:
+                            progress=i / (len(dict(s._fields['state_ptd'].selection))-2)*100
+            if s.transport_sea=="ptp":
+                if s.state_ptp!="pret" and s.state_ptp!="bloque" and  s.state_ptp!="annule" :
+                    for state in dict(s._fields['state_ptp'].selection).keys():
+                        i+=1
+                        if state==s.state_ptp:
+                            progress=i / (len(dict(s._fields['state_ptp'].selection))-2)*100
+
+
             s.progress = progress
 
     def compute_state(self, values):
