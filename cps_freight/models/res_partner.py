@@ -12,11 +12,15 @@ class ResPartner(models.Model):
     liste_voyages = fields.One2many('cps.voyage', 'client_id', 'Liste des voyages')
     liste_vehicules = fields.One2many('fleet.vehicle', 'soustraitant_id', 'Liste des véhicules')
 
-    is_transitaire = fields.Boolean(string="Est transitaire")
-    is_soutraitant = fields.Boolean(string="Est sous-traitant")
-    is_compagnie_aerienne = fields.Boolean(string="Est une compagnie aerienne")
-    is_compagnie_maritine = fields.Boolean(string="Est une compagnie maritine")
-    is_compagnie_magasinnage = fields.Boolean(string="Est une compagnie de magasinnage")
+    ramassage_supplementaire_id = fields.Many2one('cps.voyage', 'Ramassages supplémentaires')
+
+    is_transitaire = fields.Boolean(string="Transitaire")
+    is_soutraitant = fields.Boolean(string="Sous-traitant")
+    is_compagnie_aerienne = fields.Boolean(string="Compagnie aerienne")
+    is_compagnie_maritine = fields.Boolean(string="Compagnie maritine")
+    is_compagnie_magasinnage = fields.Boolean(string="Compagnie de magasinnage")
+
+    ville = fields.Many2one("res.city", string='Ville', required=True)
 
     numero_ice = fields.Char('ICE')
     numero_cnss = fields.Char('N° CNSS')
@@ -24,3 +28,15 @@ class ResPartner(models.Model):
     numero_if = fields.Char('N° IF')
     numero_tp = fields.Char('N° TP')
     classement = fields.Char('Classement')
+
+    def name_get(self):
+        res = []
+        for rec in self:
+            name = rec.name
+            res.append((rec.id, name))
+        return res
+
+    def get_name(self):
+        for s in self:
+            name = s.name + " " + s.city + " " + s.zip
+            return name

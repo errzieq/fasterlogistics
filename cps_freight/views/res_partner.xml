@@ -11,9 +11,19 @@
                 <field name="numero_ice" />
                 <field name="numero_if" />
             </field>
+            <field name="city" invisible="True"/>
+            <field name="country_id" position="after">
+                <field name="ville" placeholder="Ville" class="o_address_city"/>
+            </field>
             <field name="category_id" position="after">
                     <field name="numero_cnss" />
                     <field name="numero_tp" />
+                    <field name="is_transitaire" />
+                    <field name="is_soutraitant" />
+                    <field name="is_compagnie_aerienne" />
+                    <field name="is_compagnie_maritine" />
+                    <field name="is_compagnie_magasinnage" />
+
             </field>
         </field>
     </record>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.base.setup</field>
+        <field name="model">res.config.settings</field>
+        <field name="priority" eval="10"/>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('settings')]" position="inside">
+                <div class="app_settings_block" data-string="Configuration CPS" string="Express Freight" data-key="cps_sale_management_v13">
+                    <h2>Articles utilisés pour les bons de commandes d'achat</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="transport_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le transport national
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="transport_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="transport_inter_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le transport international
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="transport_inter_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="soustraitance_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le transport en sous-traitance
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="soustraitance_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="handling_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le handling
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="handling_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="dedouanement_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le dédouanement
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="dedouanement_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="porteur_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour les porteurs
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="porteur_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="fret_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour le fret
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="fret_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="echange_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour les échanges
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="echange_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h2>Articles utilisés pour les bons de commandes de vente</h2>
+                    <div class="row mt16 o_settings_container">
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_right_pane">
+                                <label for="vente_product"/>
+                                <div class="text-muted">
+                                    Article utilisé pour la vente
+                                </div>
+                                <div class="content-group">
+                                    <div class="mt16">
+                                        <field name="vente_product" class="o_light_label" widget="selection"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </xpath>
+        </field>
+    </record>
+
+    <record id="your_settings_action" model="ir.actions.act_window">
+        <field name="name">Votre  configuration</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="res_config_settings_view_form"/>
+        <field name="target">inline</field>
+        <field name="context">{'module' : 'cps_freight'}</field>
+    </record>
+
+</odoo>

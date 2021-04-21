@@ -2,33 +2,37 @@
 
 {
     # Module Info.
-    "name": "Freight Management",
-    "version": "13.0.1.0.0",
+    "name": "Express Freight",
+    "version": "13.0.0.0.0",
     "sequence": 1,
     "category": "Transport",
     "license": 'LGPL-3',
     "summary": """Gestion de transport international.""",
-    "description": """Gestion de transport international.""",
+    "description": """Gestion de transport express international.""",
 
     # Author
     "author": "Capital Project Strategies",
     "website": "http://www.cpsmaroc.com",
 
     # Dependencies
-    "depends": ['product', 'account'],
+    "depends": ['product', 'account', 'purchase', 'sale'],
 
     # Data
     "data": [
         'data/ir_sequence_data.xml',
         'views/cps_colisage.xml',
         'views/cps_trajet.xml',
+        'views/cps_trajet_frns.xml',
         'views/cps_soustraitant.xml',
         'views/cps_voyage_tracking.xml',
         'views/cps_voyage_resume.xml',
+        'views/purchase_order.xml',
+        'views/account_move.xml',
         'views/cps_voyage.xml',
         'views/fleet_vehicle.xml',
         'views/res_partner.xml',
         'views/cps_menu.xml',
+        'views/cps_settings.xml',
         'security/ir.model.access.csv'
     ],
 
