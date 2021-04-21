@@ -4,7 +4,7 @@ Freight Management
 ==================
 
 Freight Management System for Carriers, Transport,
-Goods Import/Export, Shipping and Transportation Solutions.
+Goods Import/Export, Shipping and Transportation Solutions
 
 ========
 Features
