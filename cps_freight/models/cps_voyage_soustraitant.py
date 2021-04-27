@@ -11,7 +11,8 @@ class CpsVoyageSoustraitant(models.Model):
     voyage_id = fields.Many2one('cps.voyage', string='Voyages')
     soustraitant_id = fields.Many2one("res.partner", string='Sous-traitant')
     vehicule_st_1 = fields.Many2one('fleet.vehicle', domain="[('soustraitant_id', '=', soustraitant_id)]", string="Véhicule")
-    mat_vehicule_sous_traitant_1 = fields.Char('Matricule', related='vehicule_st_1.license_plate')
+    etape_voyage = fields.Integer(string="Etape")
+    modele_vehicule = fields.Char('Modéle', related='vehicule_st_1.model_id.name')
     type_vehicule = fields.Selection(string="Type véhicule",selection=[('type1', 'Type 1'),
                                                                        ('type2', 'Type 2'),
                                                                        ('type3', 'Type 3'),

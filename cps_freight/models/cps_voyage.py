@@ -35,14 +35,15 @@ class CpsVoyage(models.Model):
 
     #GENERAL
     date= fields.Datetime(string="Date", default=fields.Date.today())
-    default_code = fields.Char("N° Voyage")
+    default_code = fields.Char("N° dossier")
     priorite = fields.Selection([('faible','Faible'),('moyen','Moyen'),('eleve','Elevé'), ('prioritaire','Prioritaire')], string='Priorité', default='faible')
     client_id = fields.Many2one("res.partner", string='Client', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)])
     ref_client = fields.Char("Référence Client")
-    name = fields.Char('Nom du voyage')
+    name = fields.Char('Nom du dossier')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     currency_id = fields.Many2one(related="company_id.currency_id", string="devise")
     ref_tmc = fields.Char("Ref TMC")
+    is_groupage = fields.Boolean('Groupage ?')
 
     #PARAMETRAGE VOYAGE
     service = fields.Selection([('transport','Transport'), ('consignation','Consignation'), ('transvasement','Transvasement'),('magasinage','Magasinage'), ('location','Location')], string='Service', default='transport')
@@ -57,17 +58,20 @@ class CpsVoyage(models.Model):
     type_transport = fields.Selection([('charter','Charter'), ('handcarry','Hand carry')], string='Type transport')
     type_chemin = fields.Selection([('pre', 'Pré-acheminement'),('post', 'Post-acheminement'),('pre-post', 'Acheminement complet')], string='Type chemin')
 
-    lieu_ramassage = fields.Many2one("res.partner", string='Lieu de ramassage', domain=[('type','=', 'delivery')], required=True)
-    lieu_livraison = fields.Many2one("res.partner", string='Lieu de livraison', domain=[('type','=', 'delivery')], required=True)
+    lieu_ramassage = fields.Many2one("res.partner", string='Lieu de ramassage', domain=[('type','=', 'delivery')])
+    lieu_livraison = fields.Many2one("res.partner", string='Lieu de livraison', domain=[('type','=', 'delivery')])
     ville_ramassage = fields.Many2one("res.city", related='lieu_ramassage.ville', string='Ville ramassage', store=True)
     ville_livraison = fields.Many2one("res.city",related='lieu_livraison.ville', string='Ville livraison', store=True)
     zip_ramassage = fields.Char(related='lieu_ramassage.zip', string='Code postal', store=True)
     zip_livraison = fields.Char(related='lieu_livraison.zip', string='Code postal', store=True)
 
-    ramassage_supplementaire_ids = fields.One2many('res.partner', 'ramassage_supplementaire_id', 'Ramassages supplémentaires')
+    # ramassage_ids = fields.Many2many('cps.voyage.lieu', 'voyage_ids', string='Ramassages')
+    # livraison_ids = fields.Many2many('cps.voyage.lieu', 'voyage_livraison_ids', string='Ramassages')
+
+    ramassage_ids = fields.One2many('cps.voyage.lieux', 'voyages_ids', string='Ramassages')
+    livraison_ids = fields.One2many('cps.voyage.lieux', 'voyages_livraison_ids', string='Ramassages')
 
     #COLISAGE
-    type_ramassage = fields.Selection([('ftl','F.T.L.'), ('groupage','Groupage')], string='Type ramassage', default='ftl')
     colisage_ids = fields.One2many('cps.colisage', 'voyage_id', string='Liste des colis')
 
     #PRIX
@@ -78,9 +82,9 @@ class CpsVoyage(models.Model):
 
     #VEHICULES
     sous_traitance_1 = fields.Boolean('Sous-traitance ?')
-    vehicule_st1_ids = fields.One2many('cps.voyage.soustraitant', 'voyage_id', 'Sous-traitants')
+    vehicule_st1_ids = fields.One2many('cps.voyage.soustraitant', 'voyage_id', 'Sous-traitants', domain=[('etape_voyage', '=', 1)])
     vehicule_parc_1_ids = fields.One2many('cps.voyage.parc', 'voyage_id', 'Parc Faster')
-    vehicule_st2_ids = fields.One2many('cps.voyage.soustraitant2', 'voyage_id', 'Sous-traitants')
+    vehicule_st2_ids = fields.One2many('cps.voyage.soustraitant2', 'voyage_id', 'Sous-traitants', domain=[('etape_voyage', '=', 2)])
     vehicule_parc2_ids = fields.One2many('cps.voyage.parc2', 'voyage_id', 'Parc Faster')
 
     # ----CCH fields--------
@@ -131,8 +135,8 @@ class CpsVoyage(models.Model):
     total_commandes_vente = fields.Float('Commandes ventes', compute="compute_commande_vente_amount")
 
     #TRacking et resumé
-    tracking_ids = fields.One2many('cps.voyage.tracking', 'voyage_id', string='Tracking du voyage')
-    resume_ids = fields.One2many('cps.voyage.resume', 'voyage_id', string='Résumé du voyage')
+    tracking_ids = fields.One2many('cps.voyage.tracking', 'voyage_id', string='Tracking du dossier')
+    resume_ids = fields.One2many('cps.voyage.resume', 'voyage_id', string='Résumé du dossier')
 
     def uncompute_price(self):
         print('test')
@@ -285,52 +289,55 @@ class CpsVoyage(models.Model):
 
     def calculer_resume(self):
         for p in self:
-            p.resume_ids.unlink()
+            for resume_id in p.resume_ids:
+                print('resume_id.is_manuel----------------------', resume_id.is_manuel)
+                if resume_id.is_manuel == False:
+                    resume_id.unlink()
             if p.cout_trajet > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Cout du voyage ", 'cout': p.cout_trajet})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Cout du voyage ", 'cout': p.cout_trajet, 'is_manuel' : False})
             for vehicule_st_1_id in p.vehicule_st1_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st_1_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st_1_id.soustraitant_id.id, 'cout': vehicule_st_1_id.cout})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st_1_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st_1_id.soustraitant_id.id, 'cout': vehicule_st_1_id.cout, 'is_manuel' : False})
             for vehicule_parc_1_id in p.vehicule_parc_1_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc_1_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc_1_id.cout})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc_1_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc_1_id.cout, 'is_manuel' : False})
             for vehicule_st2_id in p.vehicule_st2_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st2_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st2_id.soustraitant_id.id, 'cout': vehicule_st2_id.cout})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st2_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st2_id.soustraitant_id.id, 'cout': vehicule_st2_id.cout, 'is_manuel' : False})
             for vehicule_parc2_id in p.vehicule_parc2_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc2_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc2_id.cout})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc2_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc2_id.cout, 'is_manuel' : False})
             if p.cout_transitaire_1 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_1.id, 'cout': p.cout_transitaire_1})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_1.id, 'cout': p.cout_transitaire_1, 'is_manuel' : False})
             if p.cout_handling > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.handling_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de handling " , 'type_prestataire':'aerienne', 'client_id': p.handling.id, 'cout': p.cout_handling})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de handling " , 'type_prestataire':'aerienne', 'client_id': p.handling.id, 'cout': p.cout_handling, 'is_manuel' : False})
             if p.cout_echange > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.echange_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais d'échange " , 'type_prestataire':'aerienne', 'client_id': p.echange.id, 'cout': p.cout_echange})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais d'échange " , 'type_prestataire':'aerienne', 'client_id': p.echange.id, 'cout': p.cout_echange, 'is_manuel' : False})
             if p.cout_fret > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de fret " , 'type_prestataire':'aerienne', 'client_id': p.fret.id, 'cout': p.cout_fret})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de fret " , 'type_prestataire':'aerienne', 'client_id': p.fret.id, 'cout': p.cout_fret, 'is_manuel' : False})
             if p.cout_bagage > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais d'excedent de bagage' " , 'type_prestataire':'aerienne', 'client_id': p.fret.id, 'cout': p.cout_bagage})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais d'excedent de bagage' " , 'type_prestataire':'aerienne', 'client_id': p.fret.id, 'cout': p.cout_bagage, 'is_manuel' : False})
             if p.frais_divers > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais divers' " , 'type_prestataire':'autre', 'cout': p.frais_divers})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais divers' " , 'type_prestataire':'autre', 'cout': p.frais_divers, 'is_manuel' : False})
             if p.cout_transitaire_2 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_2.id, 'cout': p.cout_transitaire_2})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_2.id, 'cout': p.cout_transitaire_2, 'is_manuel' : False})
             if p.cout_bateau > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.fret_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de bateau " , 'type_prestataire':'maritine', 'client_id': p.bateau.id, 'cout': p.cout_bateau})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de bateau " , 'type_prestataire':'maritine', 'client_id': p.bateau.id, 'cout': p.cout_bateau, 'is_manuel' : False})
             if p.cout_transitaire_zf > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit en Z.F. ", 'type_prestataire':'transit', 'client_id': p.dedouanement_zf.id, 'cout': p.cout_transitaire_zf})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit en Z.F. ", 'type_prestataire':'transit', 'client_id': p.dedouanement_zf.id, 'cout': p.cout_transitaire_zf, 'is_manuel' : False})
             if p.cout_transbordement > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.echange_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transbordement ", 'type_prestataire':'magasinnage', 'client_id': p.transbordement.id, 'cout': p.cout_transbordement})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transbordement ", 'type_prestataire':'magasinnage', 'client_id': p.transbordement.id, 'cout': p.cout_transbordement, 'is_manuel' : False})
 
     def action_generate_bill(self):
         # "creating cps facture"
@@ -364,6 +371,10 @@ class CpsVoyage(models.Model):
                                             }),
                                     )
                 invoice.write({'invoice_line_ids': invoice_line})
+
+    def action_validate(self):
+        self.action_generate_purchase_order()
+        self.action_generate_sale_order()
 
     def action_generate_purchase_order(self):
         for p in self.resume_ids:
@@ -605,6 +616,11 @@ class CpsVoyage(models.Model):
             res.append((rec.id, name))
         return res
 
+    # def copy(self, default=None):
+    #     default = dict(default or {})
+    #     default.update ({'colisage_ids': 0})
+    #     new_product_template = super(CpsProductProduction, self).copy(default)
+    #     return new_product_template
     # def get_name(self):
     #     for s in self:
     #         name = ""

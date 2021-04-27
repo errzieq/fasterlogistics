@@ -86,12 +86,12 @@
 <!--                                <span class="o_stat_text">Véhicule Parc</span>-->
 <!--                            </div>-->
 <!--                        </button>-->
-<!--                        <button type="object"  attrs="{'invisible': [('mat_vehicule_sous_traitant_1', '=', False)]}"-->
+<!--                        <button type="object"  attrs="{'invisible': [('modele_vehicule', '=', False)]}"-->
 <!--                            name="action_view_vehicule_soustraitant_1"-->
 <!--                            class="oe_stat_button" icon="fa-truck">-->
 <!--                            <div class="o_field_widget o_stat_info">-->
 <!--                                <span class="o_stat_value" widget="statinfo">-->
-<!--                                    <field name="mat_vehicule_sous_traitant_1" widget="statinfo" nolabel="1" class="mr4"/>-->
+<!--                                    <field name="modele_vehicule" widget="statinfo" nolabel="1" class="mr4"/>-->
 <!--                                </span>-->
 <!--                                <span class="o_stat_text">Sous-traitant</span>-->
 <!--                            </div>-->
@@ -109,7 +109,7 @@
                      </div>
                      <div class="oe_title">
                         <label class="oe_edit_only" for="name"/>
-                        <h1><field name="name" placeholder="Nom du voyage"/></h1>
+                        <h1><field name="name" placeholder="N° de dossier"/></h1>
                      </div>
 
                     <group>
@@ -128,6 +128,8 @@
                             <field name="type_transport" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
                             <field name="type_chemin" invisible="1"/>
                             <field name="cch" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
+                            <field name="is_groupage"/>
+
                         </group>
                         <group name="right">
                             <field name="priorite" widget="priority"/>
@@ -138,7 +140,7 @@
 
                     <notebook>
                         <page string="Informations générales" name="general">
-                             <group string="Trajet">
+                             <group string="Trajet" attrs="{'invisible': [('is_groupage', '=', True)]}">
                                 <group name="left">
                                     <field name="lieu_ramassage" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
                                     <field name="ville_ramassage"/>
@@ -150,15 +152,35 @@
                                     <field name="zip_livraison"/>
                                 </group>
                              </group>
+                             <group string="Trajets" attrs="{'invisible': [('is_groupage', '=', False)]}">
+                                <group name="left">
+                                    <field name="ramassage_ids">
+                                        <tree editable="bottom">
+                                            <field name="lieu"/>
+                                            <field name="ville"/>
+                                            <field name="zip"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                                <group name="right">
+                                    <field name="livraison_ids">
+                                        <tree editable="bottom">
+                                            <field name="lieu"/>
+                                            <field name="ville"/>
+                                            <field name="zip"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                             </group>
                             <group>
-                                <field name="ramassage_supplementaire_ids" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"  widget="many2many_tags">
+<!--                                <field name="ramassage_supplementaire_ids" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"  widget="many2many_tags">-->
 <!--                                    <tree editable="bottom">-->
 <!--                                        <field name="display_name"/>-->
 <!--                                        <field name="ville"/>-->
 <!--                                        <field name="country_id"/>-->
 <!--                                        <field name="zip"/>-->
 <!--                                    </tree>-->
-                                </field>
+<!--                                </field>-->
                             </group>
                              <group string="Cout">
                                 <group name="left">
@@ -177,7 +199,6 @@
                         <page string="Colisage" name="Colisage">
                              <group>
                                 <group string="Colisage">
-                                    <field name="type_ramassage"/>
                                     <field name="colisage_ids"/>
                                 </group>
                                 <group string="Divers" attrs="{'invisible': [('type_voyage', '=', 'national')]}">
@@ -186,30 +207,30 @@
                                 </group>
                              </group>
                         </page>
-                        <page string="National" name="general" attrs="{'invisible': [('type_voyage', '!=', 'national')]}">
+                        <page string="Véhicule" name="general" attrs="{'invisible': [('type_voyage', '!=', 'national')]}">
                              <group>
-                                <field name="sous_traitance_1"/>
-                                <field name="vehicule_parc_1_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
-                                    <tree name="Colis" editable="bottom">
-                                        <field name="vehicule_id" />
-                                        <field name="mat_vehicule" />
-                                        <field name="type_vehicule"/>
-                                        <field name="lieu_ramassage" invisible="1"/>
-                                        <field name="lieu_livraison" invisible="1"/>
-                                        <field name="ville_ramassage" invisible="1"/>
-                                        <field name="ville_livraison" invisible="1"/>
-                                        <field name="type_voyage" invisible="1"/>
-                                        <field name="type_parcours" invisible="1"/>
-                                        <field name="cout" />
-                                        <field name="prix" />
-                                        <field name="currency_id" />
-                                    </tree>
-                                </field>
-                                <field name="vehicule_st1_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+<!--                                <field name="sous_traitance_1"/>-->
+<!--                                <field name="vehicule_parc_1_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}" context="{'default_etape_voyage': 1}">-->
+<!--                                    <tree name="Colis" editable="bottom">-->
+<!--                                        <field name="vehicule_id" />-->
+<!--                                        <field name="modele_vehicule" />-->
+<!--                                        <field name="type_vehicule"/>-->
+<!--                                        <field name="lieu_ramassage" invisible="1"/>-->
+<!--                                        <field name="lieu_livraison" invisible="1"/>-->
+<!--                                        <field name="ville_ramassage" invisible="1"/>-->
+<!--                                        <field name="ville_livraison" invisible="1"/>-->
+<!--                                        <field name="type_voyage" invisible="1"/>-->
+<!--                                        <field name="type_parcours" invisible="1"/>-->
+<!--                                        <field name="cout" />-->
+<!--                                        <field name="prix" />-->
+<!--                                        <field name="currency_id" />-->
+<!--                                    </tree>-->
+<!--                                </field>-->
+                                <field name="vehicule_st1_ids" context="{'default_etape_voyage': 1}">
                                     <tree name="Vehicule" editable="bottom">
                                         <field name="soustraitant_id"/>
                                         <field name="vehicule_st_1"/>
-                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="modele_vehicule" />
                                         <field name="type_vehicule"/>
                                         <field name="lieu_ramassage" invisible="1"/>
                                         <field name="lieu_livraison" invisible="1"/>
@@ -218,6 +239,7 @@
                                         <field name="ville_livraison" invisible="1"/>
                                         <field name="type_voyage" invisible="1"/>
                                         <field name="type_parcours" invisible="1"/>
+                                        <field name="etape_voyage" invisible="1"/>
                                         <field name="cout" />
                                         <field name="prix" />
                                         <field name="currency_id" />
@@ -228,27 +250,11 @@
                         <page string="Pré-acheminement" name="cch" attrs="{'invisible': [('type_chemin', 'in', ('post',False))]}">
                             <group string="Transport national">
                                 <field name="sous_traitance_1"/>
-                                <field name="vehicule_parc_1_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
-                                    <tree name="Colis" editable="bottom">
-                                        <field name="vehicule_id" />
-                                        <field name="mat_vehicule" />
-                                        <field name="type_vehicule"/>
-                                        <field name="lieu_ramassage" invisible="1"/>
-                                        <field name="lieu_livraison" invisible="1"/>
-                                        <field name="ville_ramassage" invisible="1"/>
-                                        <field name="ville_livraison" invisible="1"/>
-                                        <field name="type_voyage" invisible="1"/>
-                                        <field name="type_parcours" invisible="1"/>
-                                        <field name="cout" />
-                                        <field name="prix" />
-                                        <field name="currency_id" />
-                                    </tree>
-                                </field>
-                                <field name="vehicule_st1_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+                                <field name="vehicule_st1_ids" context="{'default_etape_voyage': 2}">
                                     <tree name="Vehicule" editable="bottom">
                                         <field name="soustraitant_id"/>
                                         <field name="vehicule_st_1"/>
-                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="modele_vehicule" />
                                         <field name="type_vehicule"/>
                                         <field name="lieu_ramassage" invisible="1"/>
                                         <field name="lieu_livraison" invisible="1"/>
@@ -257,6 +263,7 @@
                                         <field name="ville_livraison" invisible="1"/>
                                         <field name="type_voyage" invisible="1"/>
                                         <field name="type_parcours" invisible="1"/>
+                                        <field name="etape_voyage" invisible="1"/>
                                         <field name="cout" />
                                         <field name="prix" />
                                         <field name="currency_id" />
@@ -319,28 +326,11 @@
                         </page>
                         <page string="Post-acheminement" name="dap"  attrs="{'invisible': [('type_chemin', 'in', ('pre',False))]}">
                              <group string="Transport international">
-                                <field name="sous_traitance_2"/>
-                                <field name="vehicule_parc2_ids" attrs="{'invisible': [('sous_traitance_1', '=', True)]}">
-                                    <tree name="Colis" editable="bottom">
-                                        <field name="vehicule_id" />
-                                        <field name="mat_vehicule" />
-                                        <field name="type_vehicule"/>
-                                        <field name="lieu_ramassage" invisible="1"/>
-                                        <field name="lieu_livraison" invisible="1"/>
-                                        <field name="ville_ramassage" invisible="1"/>
-                                        <field name="ville_livraison" invisible="1"/>
-                                        <field name="type_voyage" invisible="1"/>
-                                        <field name="type_parcours" invisible="1"/>
-                                        <field name="cout" />
-                                        <field name="prix" />
-                                        <field name="currency_id" />
-                                    </tree>
-                                </field>
-                                <field name="vehicule_st2_ids" attrs="{'invisible': [('sous_traitance_1', '=', False)]}">
+                                <field name="vehicule_st2_ids" context="{'default_etape_voyage': 2}">
                                     <tree name="Vehicule" editable="bottom">
                                         <field name="soustraitant_id"/>
                                         <field name="vehicule_st_1"/>
-                                        <field name="mat_vehicule_sous_traitant_1" />
+                                        <field name="modele_vehicule" />
                                         <field name="type_vehicule"/>
                                         <field name="lieu_ramassage" invisible="1"/>
                                         <field name="lieu_livraison" invisible="1"/>
@@ -349,6 +339,7 @@
                                         <field name="ville_livraison" invisible="1"/>
                                         <field name="type_voyage" invisible="1"/>
                                         <field name="type_parcours" invisible="1"/>
+                                        <field name="etape_voyage" invisible="1"/>
                                         <field name="cout" />
                                         <field name="prix" />
                                         <field name="currency_id" />
@@ -376,12 +367,23 @@
                         </page>
                         <page string="Resumé" name="charges">
                              <group>
-                                <field name="resume_ids"/>
+                                <field name="resume_ids" context="{'default_is_manuel': True}"/>
                             </group>
                              <group>
-                                <button string="Créer commandes achats" name="action_generate_purchase_order" type="object"/>
-                                <button string="Créer commande vente" name="action_generate_sale_order" type="object"/>
-                             </group>
+                                 <group name="left">
+                                    <field name="cout_total"/>
+                                 </group>
+                                 <group name="right">
+                                    <field name="prix"/>
+                                 </group>
+                            </group>
+                            <group>
+                                 <group name="left">
+                                 </group>
+                                 <group name="right">
+                                    <button string="Valider le dossier" name="action_validate" type="object" />
+                                 </group>
+                            </group>
                         </page>
                     </notebook>
                 </sheet>

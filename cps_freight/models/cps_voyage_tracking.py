@@ -15,4 +15,4 @@ class CpsVoyageTracking(models.Model):
     duree=fields.Float('Durée (min)')
     description = fields.Char('Déscription')
     observation = fields.Char('Observation')
-
+    bl = fields.Char('N° BL')

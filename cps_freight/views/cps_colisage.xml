@@ -7,6 +7,11 @@
             <tree name="Colis" editable="bottom">
                 <field name="type_colis" />
                 <field name="qte_colis" />
+                <field name="poids_colis" />
+                <field name="palette_id" />
+                <field name="longueur" />
+                <field name="largeur" />
+                <field name="hauteur" />
             </tree>
         </field>
     </record>

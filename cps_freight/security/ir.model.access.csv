@@ -7,10 +7,12 @@ access_cps_trajet_lines,access_cps_trajet_lines,model_cps_trajet_lines,base.grou
 access_cps_trajet_lines_frns,access_cps_trajet_lines_frns,model_cps_trajet_lines_frns,base.group_user,1,1,1,1
 access_res_city,access_res_city,model_res_city,base.group_user,1,1,1,1
 access_cps_soustraitant,access_cps_soustraitant,model_cps_soustraitant,base.group_user,1,1,1,1
+access_cps_palette,access_cps_palette,model_cps_palette,base.group_user,1,1,1,1
 access_cps_voyage_tracking,access_cps_voyage_tracking,model_cps_voyage_tracking,base.group_user,1,1,1,1
 access_cps_voyage_resume,access_cps_voyage_resume,model_cps_voyage_resume,base.group_user,1,1,1,1
 access_cps_voyage_soustraitant,access_cps_voyage_soustraitant,model_cps_voyage_soustraitant,base.group_user,1,1,1,1
 access_cps_voyage_parc,access_cps_voyage_parc,model_cps_voyage_parc,base.group_user,1,1,1,1
+access_cps_voyage_lieux,access_cps_voyage_lieux,model_cps_voyage_lieux,base.group_user,1,1,1,1
 access_cps_voyage_soustraitant2,access_cps_voyage_soustraitant2,model_cps_voyage_soustraitant2,base.group_user,1,1,1,1
 access_cps_voyage_parc2,access_cps_voyage_parc,model_cps_voyage_parc2,base.group_user,1,1,1,1
 access_cps_soustraitant_price,access_cps_soustraitant_price,model_cps_soustraitant_price,base.group_user,1,1,1,1
