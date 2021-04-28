@@ -11,7 +11,8 @@ class CpsVoyageSoustraitant(models.Model):
     voyage_id = fields.Many2one('cps.voyage', string='Voyages')
     soustraitant_id = fields.Many2one("res.partner", string='Sous-traitant')
     vehicule_st_1 = fields.Many2one('fleet.vehicle', domain="[('soustraitant_id', '=', soustraitant_id)]", string="Véhicule")
-    mat_vehicule_sous_traitant_1 = fields.Char('Matricule', related='vehicule_st_1.license_plate')
+    etape_voyage = fields.Integer(string="Etape")
+    modele_vehicule = fields.Char('Modéle', related='vehicule_st_1.model_id.name')
     type_vehicule = fields.Selection(string="Type véhicule",selection=[('type1', 'Type 1'),
                                                                        ('type2', 'Type 2'),
                                                                        ('type3', 'Type 3'),
@@ -32,7 +33,7 @@ class CpsVoyageSoustraitant(models.Model):
     type_voyage  = fields.Selection([('national','National'), ('international','International')], string='Type', related='voyage_id.type_voyage', store=True)
     type_parcours = fields.Selection([('oneway','Single trip'), ('return','Return way'), ('round','Round trip')], string='Parcours', related='voyage_id.type_parcours', store=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
-    currency_id = fields.Many2one(related="company_id.currency_id", string="devise")
+    currency_id = fields.Many2one(related="soustraitant_id.property_purchase_currency_id", string="devise")
 
     cout = fields.Monetary(string="Cout véhicule", compute='compute_price_frns', inverse='uncompute_price_frns', store=True)
     prix = fields.Monetary(string="Prix véhicule", compute='compute_price', inverse='uncompute_price', store=True)
@@ -47,10 +48,13 @@ class CpsVoyageSoustraitant(models.Model):
     def onchange_vehicule_st_1(self):
         self.type_vehicule=self.vehicule_st_1.type_vehicule
 
-    @api.depends('ville_ramassage','ville_livraison','type_vehicule','type_parcours','type_parcours')
+    @api.depends('ville_ramassage','ville_livraison','type_vehicule','type_parcours','type_parcours','soustraitant_id')
     def compute_price_frns(self):
         for p in self:
-            trajet_price = p.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', p.ville_ramassage.id),('lieu_livraison', '=', p.ville_livraison.id),('type_vehicule', '=', p.type_vehicule),('type_voyage', '=', p.type_parcours),('partner_id', '=', p.vehicule_st_1.soustraitant_id.id)]).cout
+            if self.soustraitant_id is not False:
+                trajet_price = p.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', p.ville_ramassage.id),('lieu_livraison', '=', p.ville_livraison.id),('type_vehicule', '=', p.type_vehicule),('type_voyage', '=', p.type_parcours),('partner_id', '=', p.vehicule_st_1.soustraitant_id.id)]).cout
+            else:
+                trajet_price = p.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', p.ville_ramassage.id),('lieu_livraison', '=', p.ville_livraison.id),('type_vehicule', '=', p.type_vehicule),('type_voyage', '=', p.type_parcours),('partner_id', '=', False)]).cout
             p.cout = trajet_price
             p.voyage_id.compute_cout
 

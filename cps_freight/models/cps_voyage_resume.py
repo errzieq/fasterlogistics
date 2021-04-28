@@ -17,3 +17,4 @@ class CpsVoyageResume(models.Model):
     client_id = fields.Many2one("res.partner", string='Préstataire')
     cout = fields.Monetary(string="Cout")
     currency_id = fields.Many2one('res.currency', string='Devise', related='client_id.property_purchase_currency_id', store=True)
+    is_manuel = fields.Boolean('Operation manuelle')

@@ -14,6 +14,8 @@ from . import cps_voyage_parc
 from . import cps_voyage_soustraitant2
 from . import cps_voyage_parc2
 from . import fleet_vehicle
+from . import cps_palette
+from . import cps_voyage_lieu
 from . import account_move
 from . import cps_partner_price
 from . import cps_trajet

@@ -10,6 +10,7 @@
                 <field name="description" />
                 <field name="cout" />
                 <field name="currency_id" />
+                <field name="is_manuel" invisible="1"/>
             </tree>
         </field>
     </record>
