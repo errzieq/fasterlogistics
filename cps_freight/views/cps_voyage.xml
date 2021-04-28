@@ -439,6 +439,7 @@
         <field name="model">cps.voyage</field>
         <field name="arch" type="xml">
             <tree string="Dossiers" decoration-danger="progress &lt; 45" decoration-warning="progress &gt; 45 and progress &lt; 70" decoration-success="progress &gt; 70">
+                <field name="date" />
                 <field name="default_code" />
                 <field name="client_id" />
 <!--                <field name="trajet_id" />-->
