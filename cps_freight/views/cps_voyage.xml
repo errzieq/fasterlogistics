@@ -108,12 +108,13 @@
 <!--                        </button>-->
                      </div>
                      <div class="oe_title">
-                        <label class="oe_edit_only" for="name"/>
-                        <h1><field name="name" placeholder="N° de dossier"/></h1>
+                        <label class="oe_edit_only" for="default_code"/>
+                        <h1><field name="default_code" placeholder="N° de dossier"/></h1>
                      </div>
 
                     <group>
                         <group name="left">
+                            <field name="state_general" invisible="1"/>
                             <field name="date"/>
                             <field name="client_id"/>
                             <field name="ref_client"/>
@@ -197,7 +198,6 @@
                             </group>
                         </page>
                         <page string="Colisage" name="Colisage">
-                             <group>
                                 <group string="Colisage">
                                     <field name="colisage_ids"/>
                                 </group>
@@ -205,7 +205,6 @@
 <!--                                    <field name="ton"/>-->
                                     <field name="ref_tmc"/>
                                 </group>
-                             </group>
                         </page>
                         <page string="Véhicule" name="general" attrs="{'invisible': [('type_voyage', '!=', 'national')]}">
                              <group>
@@ -242,15 +241,15 @@
                                         <field name="etape_voyage" invisible="1"/>
                                         <field name="cout" />
                                         <field name="prix" />
-                                        <field name="currency_id" />
+                                        <field name="currency_id" invisible="1"/>
                                     </tree>
                                 </field>
                             </group>
                         </page>
                         <page string="Pré-acheminement" name="cch" attrs="{'invisible': [('type_chemin', 'in', ('post',False))]}">
                             <group string="Transport national">
-                                <field name="sous_traitance_1"/>
-                                <field name="vehicule_st1_ids" context="{'default_etape_voyage': 2}">
+<!--                                <field name="sous_traitance_1"/>-->
+                                <field name="vehicule_st1_ids" context="{'default_etape_voyage': 1}">
                                     <tree name="Vehicule" editable="bottom">
                                         <field name="soustraitant_id"/>
                                         <field name="vehicule_st_1"/>
@@ -266,7 +265,7 @@
                                         <field name="etape_voyage" invisible="1"/>
                                         <field name="cout" />
                                         <field name="prix" />
-                                        <field name="currency_id" />
+                                        <field name="currency_id" invisible="1"/>
                                     </tree>
                                 </field>
                              </group>
@@ -381,7 +380,7 @@
                                  <group name="left">
                                  </group>
                                  <group name="right">
-                                    <button string="Valider le dossier" name="action_validate" type="object" />
+                                    <button string="Valider le dossier" name="action_validate" type="object" attrs="{'invisible': [('state_general', '!=', 'livre')]}"/>
                                  </group>
                             </group>
                         </page>
@@ -439,8 +438,8 @@
         <field name="name">cps.voyage.tree</field>
         <field name="model">cps.voyage</field>
         <field name="arch" type="xml">
-            <tree string="Livraisons" decoration-danger="progress &lt; 45" decoration-warning="progress &gt; 45 and progress &lt; 70" decoration-success="progress &gt; 70">
-                <field name="name" />
+            <tree string="Dossiers" decoration-danger="progress &lt; 45" decoration-warning="progress &gt; 45 and progress &lt; 70" decoration-success="progress &gt; 70">
+                <field name="default_code" />
                 <field name="client_id" />
 <!--                <field name="trajet_id" />-->
                 <field name="type_voyage" />
@@ -455,7 +454,7 @@
     </record>
 
 	<record id="action_voyage" model="ir.actions.act_window">
-		<field name="name">Livraisons</field>
+		<field name="name">Dossiers</field>
 		<field name="res_model">cps.voyage</field>
 		<!-- <field name="view_type">form</field> -->
 		<field name="view_mode">tree,kanban,form</field>

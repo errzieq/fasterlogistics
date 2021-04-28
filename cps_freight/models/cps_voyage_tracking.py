@@ -16,3 +16,4 @@ class CpsVoyageTracking(models.Model):
     description = fields.Char('Déscription')
     observation = fields.Char('Observation')
     bl = fields.Char('N° BL')
+    # lieu_ids = fields.One2many('cps.voyage.lieux', 'tracking_ids', domain="[('voyages_ids', '=', voyage_id)]", string="Lieux")

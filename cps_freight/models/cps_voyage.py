@@ -84,7 +84,7 @@ class CpsVoyage(models.Model):
     sous_traitance_1 = fields.Boolean('Sous-traitance ?')
     vehicule_st1_ids = fields.One2many('cps.voyage.soustraitant', 'voyage_id', 'Sous-traitants', domain=[('etape_voyage', '=', 1)])
     vehicule_parc_1_ids = fields.One2many('cps.voyage.parc', 'voyage_id', 'Parc Faster')
-    vehicule_st2_ids = fields.One2many('cps.voyage.soustraitant2', 'voyage_id', 'Sous-traitants', domain=[('etape_voyage', '=', 2)])
+    vehicule_st2_ids = fields.One2many('cps.voyage.soustraitant', 'voyage_id', 'Sous-traitants', domain=[('etape_voyage', '=', 2)])
     vehicule_parc2_ids = fields.One2many('cps.voyage.parc2', 'voyage_id', 'Parc Faster')
 
     # ----CCH fields--------
@@ -164,32 +164,6 @@ class CpsVoyage(models.Model):
         self.calculer_resume()
         self.compute_state(values)
         return voyage
-
-    # @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st1_ids','type_parcours','client_id')
-    # def compute_price(self):
-    #     for p in self:
-    #         trajet_price = 0
-    #         for vehicule_st_1_id in p.vehicule_st1_ids:
-    #             # print('vahcule---------------------', vehicule_st_1_id)
-    #             trajet_price += p.env['cps.trajet.lines'].search([('lieu_ramassage', '=', p.ville_ramassage.id), ('lieu_livraison', '=', p.ville_livraison.id), ('type_vehicule', '=', vehicule_st_1_id.type_vehicule), ('type_voyage', '=', p.type_parcours), ('partner_id', '=', p.client_id.id)]).cout
-
-        # if len(self.vehicule_parc_1)>0:
-        #     trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
-        # if len(self.vehicule_st_1)>0:
-        #     trajet_price = self.env['cps.trajet.lines'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.client_id.id)]).cout
-        # self.prix = trajet_price
-
-    # @api.depends('ville_ramassage','ville_livraison','vehicule_parc_1','vehicule_st_1','type_voyage','client_id')
-    # def compute_price_frns(self):
-    #     trajet_price = 0
-    #     print('self.vehicule_st_1.type_vehicule-----------------', self.vehicule_st_1.type_vehicule)
-    #     print('self.vehicule_st_1.soustraitant_id.id-----------------', self.vehicule_st_1.soustraitant_id.id)
-    #     if len(self.vehicule_parc_1)>0:
-    #         trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_parc_1.type_vehicule),('type_voyage', '=', self.type_parcours),('tarif_interne', '=', True)]).cout
-    #     if len(self.vehicule_st_1)>0:
-    #         trajet_price = self.env['cps.trajet.lines.frns'].search([('lieu_ramassage', '=', self.ville_ramassage.id),('lieu_livraison', '=', self.ville_livraison.id),('type_vehicule', '=', self.vehicule_st_1.type_vehicule),('type_voyage', '=', self.type_parcours),('partner_id', '=', self.vehicule_st_1.soustraitant_id.id)]).cout
-    #
-    #     self.cout = trajet_price
 
     @api.depends('state_national','state_dtd_sea','state_dtp','state_ptd','state_ptp','state_dtd_road','state_dta','state_atd','state_ata')
     def compute_progress_state(self):
@@ -585,7 +559,7 @@ class CpsVoyage(models.Model):
         }
         return result
 
-    @api.depends('vehicule_st1_ids','vehicule_parc_1_ids','cout_trajet','cout_transitaire_1','cout_handling','cout_echange','cout_fret','cout_bagage','frais_divers','cout_transitaire_2','cout_bateau','cout_transitaire_zf','cout_transbordement')
+    @api.depends('resume_ids')
     def compute_cout(self):
         for p in self:
             p.cout_total=0
