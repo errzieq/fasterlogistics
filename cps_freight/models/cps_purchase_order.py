@@ -32,3 +32,8 @@ class PurchaseOrder(models.Model):
             'company_id': self.company_id.id,
         }
         return invoice_vals
+
+class PurchaseOrderLine(models.Model):
+    _inherit = 'purchase.order.line'
+
+    voyage_id = fields.Many2one('cps.voyage', 'N° voyage')
