@@ -7,7 +7,7 @@
     "sequence": 1,
     "category": "Transport",
     "license": 'LGPL-3',
-    "summary": """Gestion de transport international.""",
+    "summary": """Gestion de transport international""",
     "description": """Gestion de transport express international.""",
 
     # Author

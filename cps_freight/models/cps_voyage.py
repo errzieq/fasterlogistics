@@ -69,7 +69,7 @@ class CpsVoyage(models.Model):
     # livraison_ids = fields.Many2many('cps.voyage.lieu', 'voyage_livraison_ids', string='Ramassages')
 
     ramassage_ids = fields.One2many('cps.voyage.lieux', 'voyages_ids', string='Ramassages')
-    livraison_ids = fields.One2many('cps.voyage.lieux', 'voyages_livraison_ids', string='Ramassages')
+    livraison_ids = fields.One2many('cps.voyage.lieux', 'voyages_livraison_ids', string='Livraisons')
 
     #COLISAGE
     colisage_ids = fields.One2many('cps.colisage', 'voyage_id', string='Liste des colis')
