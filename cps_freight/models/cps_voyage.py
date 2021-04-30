@@ -45,7 +45,7 @@ class CpsVoyage(models.Model):
     ref_tmc = fields.Char("Ref TMC")
     is_groupage = fields.Boolean('Groupage ?')
 
-    #PARAMETRAGE VOYAGE
+    #PARAMETRAGE VOYAGES
     service = fields.Selection([('transport','Transport'), ('consignation','Consignation'), ('transvasement','Transvasement'),('magasinage','Magasinage'), ('location','Location')], string='Service', default='transport')
     type_voyage  = fields.Selection([('national','National'), ('international','International')], string='Type')
     voie = fields.Selection([('road','Road'),('sea','Sea'),('air','Air')], string='Voie')
