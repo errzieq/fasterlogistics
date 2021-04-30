@@ -41,3 +41,9 @@ class SaleOrder(models.Model):
             'company_id': self.company_id.id,
         }
         return invoice_vals
+
+class SaleOrderLine(models.Model):
+    _name = 'sale.order.line'
+    _inherit = 'sale.order.line'
+
+    voyage_id = fields.Many2one('cps.voyage', 'Liste des voyages')

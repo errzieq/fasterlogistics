@@ -11,3 +11,11 @@ class Account_move(models.Model):
 
     voyage_id = fields.Many2one("cps.voyage", string='Voyage')
 
+class Account_move_line(models.Model):
+    """Inherit Partner Model."""
+
+    _inherit = 'account.move.line'
+
+    voyage_id = fields.Many2one("cps.voyage", string='Voyage')
+
+
