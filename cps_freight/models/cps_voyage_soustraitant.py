@@ -33,7 +33,8 @@ class CpsVoyageSoustraitant(models.Model):
     type_voyage  = fields.Selection([('national','National'), ('international','International')], string='Type', related='voyage_id.type_voyage', store=True)
     type_parcours = fields.Selection([('oneway','Single trip'), ('return','Return way'), ('round','Round trip')], string='Parcours', related='voyage_id.type_parcours', store=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
-    currency_id = fields.Many2one(related="soustraitant_id.property_purchase_currency_id", string="devise")
+    currency_id = fields.Many2one(related="soustraitant_id.currency_id", string="devise")
+    currency_vente_id = fields.Many2one(related="voyage_id.client_id.property_product_pricelist.currency_id", string="devise")
 
     cout = fields.Monetary(string="Cout véhicule", compute='compute_price_frns', inverse='uncompute_price_frns', store=True)
     prix = fields.Monetary(string="Prix véhicule", compute='compute_price', inverse='uncompute_price', store=True)

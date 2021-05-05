@@ -9,6 +9,9 @@
                 <field name="ref" position="after">
                     <field name="voyage_id"/>
                 </field>
+                <xpath expr="/form/sheet/notebook/page[1]/field[@name='invoice_line_ids']/tree/field[@name='product_id']" position="after">
+                    <field name="voyage_id"/>
+                </xpath>
             </data>
         </field>
     </record>

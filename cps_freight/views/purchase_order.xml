@@ -9,6 +9,9 @@
                 <field name="partner_id" position="after">
                     <field name="voyage_id"/>
                 </field>
+                <xpath expr="/form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="voyage_id"/>
+                </xpath>
             </data>
         </field>
     </record>
@@ -29,7 +32,7 @@
     <record model="ir.ui.view" id="purchase_order_view_tree">
         <field name="name">purchase.order.tree.view.inherit</field>
         <field name="model">purchase.order</field>
-        <field name="inherit_id" ref="purchase.purchase_order_view_tree"/>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
             <data>
                 <field name="name" position="after">

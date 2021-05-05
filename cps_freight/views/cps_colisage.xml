@@ -5,6 +5,9 @@
         <field name="model">cps.colisage</field>
         <field name="arch" type="xml">
             <tree name="Colis" editable="bottom">
+<!--                <field name="is_groupage"/>-->
+<!--                <field name="lieux"/>-->
+<!--                <field name="vehicule_id" attrs="{'invisible' : [('is_groupage', '=', False)]}" />-->
                 <field name="type_colis" />
                 <field name="qte_colis" />
                 <field name="poids_colis" />
