@@ -3,7 +3,7 @@ from odoo import models, fields, api
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    voyage_id = fields.Many2one('cps.voyage', 'N° voyage')
+    voyage_id = fields.Many2one('cps.voyage', 'N° dossier')
 
     def _prepare_invoice(self):
         """Prepare the dict of values to create the new invoice for a purchase order.
@@ -36,4 +36,4 @@ class PurchaseOrder(models.Model):
 class PurchaseOrderLine(models.Model):
     _inherit = 'purchase.order.line'
 
-    voyage_id = fields.Many2one('cps.voyage', 'N° voyage')
+    voyage_id = fields.Many2one('cps.voyage', 'N° dossier')

@@ -114,7 +114,7 @@
 
                     <group>
                         <group name="left">
-                            <field name="state_general" invisible="1"/>
+                            <field name="state_general"/>
                             <field name="date"/>
                             <field name="client_id"/>
                             <field name="ref_client"/>
@@ -201,7 +201,7 @@
                                 <group string="Colisage">
                                     <field name="colisage_ids"/>
                                 </group>
-                                <group string="Divers" attrs="{'invisible': [('type_voyage', '=', 'national')]}">
+                                    <group string="Divers" attrs="{'invisible': [('type_voyage', '=', 'national')]}">
 <!--                                    <field name="ton"/>-->
                                     <field name="ref_tmc"/>
                                 </group>
@@ -270,9 +270,10 @@
                                 </field>
                              </group>
                              <group>
-                                <group name="left" string="Dédouanement Z.F.">
-                                    <field name="dedouanement_zf" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
-                                    <field name="cout_transitaire_zf"  />
+                                <group name="left" string="Dédouanement Z.F." attrs="{'invisible': [('type_trajet', 'in', ('import'))]}">
+                                    <field name="is_dedouanement_zf"/>
+                                    <field name="dedouanement_zf" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}" attrs="{'invisible': [('is_dedouanement_zf', '=', False)]}"/>
+                                    <field name="cout_transitaire_zf" attrs="{'invisible': [('is_dedouanement_zf', '=', False)]}"/>
                                 </group>
                                 <group name="right" string="Handling" attrs="{'invisible': [('transport', '!=', 'cch'),('transport', '!=', 'charter'),('transport', '!=', 'dtd')]}">
                                     <field name="handling" context="{'default_is_compagnie_aerienne': True, 'default_is_company' : True}"/>
@@ -281,9 +282,10 @@
                                 <group name="left" string="Divers">
                                     <field name="porteur"/>
                                 </group>
-                                <group name="right" string="Divers">
-                                    <field name="dedouanement_1" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
-                                    <field name="cout_transitaire_1" />
+                                <group name="right" string="Dédouanement">
+                                    <field name="is_dedouanement_1"/>
+                                    <field name="dedouanement_1" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}" attrs="{'invisible': [('is_dedouanement_1', '=', False)]}"/>
+                                    <field name="cout_transitaire_1" attrs="{'invisible': [('is_dedouanement_1', '=', False)]}"/>
                                 </group>
                             </group>
                         </page>
@@ -303,13 +305,15 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Maritine" name="maritine" attrs="{'invisible': [('voie', 'not in', ('sea', 'road'))]}">
+                        <page string="Traversée" name="maritine" attrs="{'invisible': [('voie', 'not in', ('sea', 'road'))]}">
                              <group>
                                 <group name="left" string="Bateau">
                                     <field name="bateau" context="{'default_is_compagnie_maritine': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
+                                    <field name="date_sortie_bateau"/>
+                                    <field name="bill_loading"/>
                                     <field name="cout_bateau" />
                                 </group>
-                                <group name="right" string="Dédouanement">
+                                <group name="right" string="Dédouanement" attrs="{'invisible': [('transport_sea', 'not in', ('ptp'))]}">
                                     <field name="dedouanement_2" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_transitaire_2" />
                                 </group>
@@ -350,12 +354,18 @@
                                     <field name="echange" context="{'default_is_compagnie_aerienne': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
                                     <field name="cout_echange" />
                                 </group>
-                                <group name="right" string="LTA">
+                                <group name="right" string="LTA" attrs="{'invisible': [('voie', '!=', 'air')]}">
                                     <field name="n_lta"/>
                                 </group>
+                                <group name="left" string="Dédouanement Z.F." attrs="{'invisible': [('type_trajet', 'in', ('export'))]}">
+                                    <field name="is_dedouanement_zf"/>
+                                    <field name="dedouanement_zf" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}" attrs="{'invisible': [('is_dedouanement_zf', '=', False)]}"/>
+                                    <field name="cout_transitaire_zf" attrs="{'invisible': [('is_dedouanement_zf', '=', False)]}"/>
+                                </group>
                                 <group name="left" string="Dédouanement">
-                                    <field name="dedouanement_2" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}"/>
-                                    <field name="cout_transitaire_2" />
+                                    <field name="is_dedouanement_2"/>
+                                    <field name="dedouanement_2" context="{'default_is_transitaire': True,'search_default_supplier': 1,'res_partner_search_mode': 'supplier', 'default_is_company': True, 'default_supplier_rank': 1}" attrs="{'invisible': [('is_dedouanement_2', '=', False)]}"/>
+                                    <field name="cout_transitaire_2"  attrs="{'invisible': [('is_dedouanement_2', '=', False)]}"/>
                                 </group>
                             </group>
                         </page>

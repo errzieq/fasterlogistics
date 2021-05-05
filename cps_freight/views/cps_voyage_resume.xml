@@ -9,6 +9,7 @@
                 <field name="type_prestataire" />
                 <field name="description" />
                 <field name="cout" />
+                <field name="product_id" />
                 <field name="currency_id" />
                 <field name="is_manuel" invisible="1"/>
             </tree>

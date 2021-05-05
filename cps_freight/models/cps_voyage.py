@@ -20,7 +20,7 @@ class CpsVoyage(models.Model):
     # state_charter_dtd = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
     # state_routier = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
     # state_routier_transbordement = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
-    state_general =  fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'),('charge','Chargé'), ('attente_liv','Att. Liv.'),('handling','Handling'),('echange','Echange'),('landing','Landing'),('en_board','On board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
+    state_general =  fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('dedouanement_zf','Dédouanement ZF'), ('route','En route'), ('dedouanement','Dédouanement'),('scanner','En Scanner'),('on_board','On board'),('amarrage','Amarage'),('accostage','Accostage'),('transbordement','Transbordement'),('route_2','En Route'), ('livre','Livré'),('charge','Chargé'), ('attente_liv','Att. Liv.'),('handling','Handling'),('echange','Echange'),('landing','Landing'),('en_board','On board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
 
     state_national = fields.Selection([('pret','Pret'), ('encours','En cours'), ('attente_chargement','Att. Char.'), ('attente_doc','Att. doc.'), ('charge','Chargé'), ('route','En route'), ('attente_liv','Att. livr.'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
     state_dtd_road = fields.Selection([('pret','Pret'),('encours','En cours'), ('attente_chargement','Att. Char.'),('attente_doc','Att. Doc.'), ('route','En route'), ('dedouanement','Dédouanement'),('en_board','En board'),('take_off','Take off'),('landed','Landed'),('released','Released'),('route_2','En Route'), ('livre','Livré'), ('annule','Annulé'), ('bloque','BLoqué')], string='Etat', default='pret')
@@ -41,7 +41,7 @@ class CpsVoyage(models.Model):
     ref_client = fields.Char("Référence Client")
     name = fields.Char('Nom du dossier')
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
-    currency_id = fields.Many2one(related="company_id.currency_id", string="devise")
+    currency_id = fields.Many2one(related="client_id.property_product_pricelist.currency_id", string="devise")
     ref_tmc = fields.Char("Ref TMC")
     is_groupage = fields.Boolean('Groupage ?')
 
@@ -55,7 +55,7 @@ class CpsVoyage(models.Model):
     type_prestation = fields.Selection([('standard','Standard'), ('premium','Premium')], string='Type préstation')
     transport = fields.Selection([('dtd','DTD'), ('dta','DTA'), ('ata','ATA'), ('atd','ATD')], string='Transport')
     transport_sea = fields.Selection([('dtd','DTD'), ('dtp','DTP'), ('ptp','PTP'), ('ptd','PTD')], string='Transport')
-    type_transport = fields.Selection([('charter','Charter'), ('handcarry','Hand carry')], string='Type transport')
+    type_transport = fields.Selection([('charter','Charter'), ('handcarry','Hand carry'), ('fret','Air fret')], string='Type transport')
     type_chemin = fields.Selection([('pre', 'Pré-acheminement'),('post', 'Post-acheminement'),('pre-post', 'Acheminement complet')], string='Type chemin')
 
     lieu_ramassage = fields.Many2one("res.partner", string='Lieu de ramassage', domain=[('type','=', 'delivery')])
@@ -88,6 +88,7 @@ class CpsVoyage(models.Model):
     vehicule_parc2_ids = fields.One2many('cps.voyage.parc2', 'voyage_id', 'Parc Faster')
 
     # ----CCH fields--------
+    is_dedouanement_1 = fields.Boolean('Dédouanement ?')
     dedouanement_1 = fields.Many2one("res.partner", string='Transitaire', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transitaire_1 = fields.Monetary(string="Cout")
     handling = fields.Many2one("res.partner", string='Handling', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', True),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
@@ -107,6 +108,7 @@ class CpsVoyage(models.Model):
     #OBC
     cout_bagage = fields.Monetary(string="Excédent bagage")
     frais_divers = fields.Monetary(string="Frais divers")
+    is_dedouanement_2 = fields.Boolean('Dédouanement ?')
     dedouanement_2 = fields.Many2one("res.partner", string='Transitaire', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transitaire_2 = fields.Monetary(string="Cout")
     sous_traitance_2 = fields.Boolean('Sous-traitance ?')
@@ -115,6 +117,9 @@ class CpsVoyage(models.Model):
     #INTER-ROUTIER
     bateau = fields.Many2one("res.partner", string='Bateau', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', True),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_bateau = fields.Monetary(string="Cout")
+    date_sortie_bateau = fields.Datetime('Heure sortie')
+    bill_loading = fields.Char('Bill of loading')
+    is_dedouanement_zf =  fields.Boolean('Dédouanement Z.F. ?')
     dedouanement_zf = fields.Many2one("res.partner", string='Transitaire ZF', domain=[('is_transitaire', '=', True),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 1),('is_company', '=', True)])
     cout_transitaire_zf = fields.Monetary(string="Cout")
 
@@ -239,27 +244,30 @@ class CpsVoyage(models.Model):
                 if values['state_national']:
                     p.env['cps.voyage.tracking'].create({'voyage_id': p.id,'date_tracking':fields.Datetime.now(),'description': dict(p._fields['state_national'].selection).get(p.state_national)})
                     p.state_general = p.state_national
-            elif 'state_cch' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_cch'].selection).get(p.state_cch)})
-                p.state_general = p.state_cch
-            elif 'state_dap' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_dap'].selection).get(p.state_dap)})
-                p.state_general = p.state_dap
-            elif 'state_fret' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_fret'].selection).get(p.state_fret)})
-                p.state_general = p.state_fret
-            elif 'state_obc' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_obc'].selection).get(p.state_obc)})
-                p.state_general = p.state_obc
-            elif 'state_charter_dtd' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_charter_dtd'].selection).get(p.state_charter_dtd)})
-                p.state_general = p.state_charter_dtd
-            elif 'state_routier' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_routier'].selection).get(p.state_routier)})
-                p.state_general = p.state_routier
-            elif 'state_routier_transbordement' in values:
-                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_routier_transbordement'].selection).get(p.state_routier_transbordement)})
-                p.state_general = p.state_routier_transbordement
+            elif 'state_dtd_road' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_dtd_road'].selection).get(p.state_dtd_road)})
+                p.state_general = p.state_dtd_road
+            elif 'state_dta' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_dta'].selection).get(p.state_dta)})
+                p.state_general = p.state_dta
+            elif 'state_atd' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_atd'].selection).get(p.state_atd)})
+                p.state_general = p.state_atd
+            elif 'state_ata' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_ata'].selection).get(p.state_ata)})
+                p.state_general = p.state_ata
+            elif 'state_dtd_sea' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_dtd_sea'].selection).get(p.state_dtd_sea)})
+                p.state_general = p.state_dtd_sea
+            elif 'state_dtp' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_dtp'].selection).get(p.state_dtp)})
+                p.state_general = p.state_dtp
+            elif 'state_ptd' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_ptd'].selection).get(p.state_ptd)})
+                p.state_general = p.state_ptd
+            elif 'state_ptp' in values:
+                p.env['cps.voyage.tracking'].create({'voyage_id': p.id, 'date_tracking': fields.Datetime.now(), 'description': dict(p._fields['state_ptp'].selection).get(p.state_ptp)})
+                p.state_general = p.state_ptp
 
     def calculer_resume(self):
         for p in self:
@@ -272,16 +280,16 @@ class CpsVoyage(models.Model):
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Cout du voyage ", 'cout': p.cout_trajet, 'is_manuel' : False})
             for vehicule_st_1_id in p.vehicule_st1_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st_1_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st_1_id.soustraitant_id.id, 'cout': vehicule_st_1_id.cout, 'is_manuel' : False})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st_1_id.vehicule_st_1.license_plate, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st_1_id.soustraitant_id.id, 'cout': vehicule_st_1_id.cout, 'is_manuel' : False})
             for vehicule_parc_1_id in p.vehicule_parc_1_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc_1_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc_1_id.cout, 'is_manuel' : False})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc_1_id.vehicule_id.license_plate, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc_1_id.cout, 'is_manuel' : False})
             for vehicule_st2_id in p.vehicule_st2_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.soustraitance_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st2_id.vehicule_st_1.name, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st2_id.soustraitant_id.id, 'cout': vehicule_st2_id.cout, 'is_manuel' : False})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Sous-traitance véhicule " + vehicule_st2_id.vehicule_st_1.license_plate, 'type_prestataire': 'sous-traitant', 'client_id': vehicule_st2_id.soustraitant_id.id, 'cout': vehicule_st2_id.cout, 'is_manuel' : False})
             for vehicule_parc2_id in p.vehicule_parc2_ids:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.transport_product'))])
-                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc2_id.vehicule_id.name, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc2_id.cout, 'is_manuel' : False})
+                p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description': "Véhicule Faster " + vehicule_parc2_id.vehicule_id.license_plate, 'type_prestataire': 'parc', 'client_id': '', 'cout': vehicule_parc2_id.cout, 'is_manuel' : False})
             if p.cout_transitaire_1 > 0:
                 product_id = self.env['product.product'].search([("id", "=", self.env['ir.config_parameter'].sudo().get_param('cps_freight.dedouanement_product'))])
                 p.env['cps.voyage.resume'].create({'voyage_id': p.id, 'product_id': product_id.id, 'description':"Frais de transit " , 'type_prestataire':'transit', 'client_id': p.dedouanement_1.id, 'cout': p.cout_transitaire_1, 'is_manuel' : False})
@@ -385,8 +393,8 @@ class CpsVoyage(models.Model):
                 'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
                 'order_line': [(0, 0, {
                                 'product_id': product_id.id,
+                                'name': product_id.name,
                                 'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
-                                'name': self.name,
                                 'product_uom_qty': 1,
                                 'qty_delivered': 1,
                                 'price_unit': self.prix,
@@ -407,7 +415,7 @@ class CpsVoyage(models.Model):
                 'move_type': 'out_invoice',
                 'invoice_date': fields.Datetime.now(),
                 'invoice_payment_term_id': self.client_id.property_payment_term_id.id,
-                'currency_id': self.currency_id.id,
+                'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
                 'voyage_id': self.id,
                 'name': '/',
                 'invoice_line_ids': [],
@@ -436,7 +444,7 @@ class CpsVoyage(models.Model):
     def compute_commande_achat_amount(self):
         total=0
         for f in self.commande_achat_ids:
-            total+=f.amount_untaxed
+            total+=f.amount_untaxed * (1/f.currency_rate)
         self.total_commandes_achats = total
 
     def action_view_factures_achat(self):
@@ -478,7 +486,7 @@ class CpsVoyage(models.Model):
     def compute_commande_vente_amount(self):
         total=0
         for f in self.commande_vente_ids:
-            total+=f.amount_untaxed
+            total+=f.amount_untaxed * (1/f.currency_rate)
         self.total_commandes_vente = total
 
     def action_view_factures_vente(self):

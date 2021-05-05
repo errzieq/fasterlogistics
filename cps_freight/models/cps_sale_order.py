@@ -4,7 +4,7 @@ class SaleOrder(models.Model):
     _name = 'sale.order'
     _inherit = 'sale.order'
 
-    voyage_id = fields.Many2one('cps.voyage', 'Liste des voyages')
+    voyage_id = fields.Many2one('cps.voyage', 'N° dossier')
 
     def _prepare_invoice(self):
         """
@@ -46,4 +46,4 @@ class SaleOrderLine(models.Model):
     _name = 'sale.order.line'
     _inherit = 'sale.order.line'
 
-    voyage_id = fields.Many2one('cps.voyage', 'Liste des voyages')
+    voyage_id = fields.Many2one('cps.voyage', 'N° dossier')
