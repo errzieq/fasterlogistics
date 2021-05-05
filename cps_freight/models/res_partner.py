@@ -13,10 +13,14 @@ class ResPartner(models.Model):
     liste_vehicules = fields.One2many('fleet.vehicle', 'soustraitant_id', 'Liste des véhicules')
 
     is_transitaire = fields.Boolean(string="Transitaire")
-    is_soutraitant = fields.Boolean(string="Sous-traitant")
+    is_soutraitant = fields.Boolean(string="Transporteur")
+    is_soutraitant_inter = fields.Boolean(string="Transporteur international")
     is_compagnie_aerienne = fields.Boolean(string="Compagnie aerienne")
-    is_compagnie_maritine = fields.Boolean(string="Compagnie maritine")
-    is_compagnie_magasinnage = fields.Boolean(string="Compagnie de magasinnage")
+    is_compagnie_maritine = fields.Boolean(string="Compagnie maritime")
+    is_compagnie_magasinnage = fields.Boolean(string="Sté de Magasinage")
+    is_autorite_portuaire = fields.Boolean(string="Autorité portuaire")
+    is_fret_forwarder = fields.Boolean(string="Fret forwarder")
+    is_service = fields.Boolean(string="Service")
 
     ville = fields.Many2one("res.city", string='Ville', required=True)
 

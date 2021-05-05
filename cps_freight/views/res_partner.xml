@@ -20,10 +20,13 @@
                     <field name="numero_tp" />
                     <field name="is_transitaire" />
                     <field name="is_soutraitant" />
+                    <field name="is_soutraitant_inter" />
                     <field name="is_compagnie_aerienne" />
                     <field name="is_compagnie_maritine" />
                     <field name="is_compagnie_magasinnage" />
-
+                    <field name="is_autorite_portuaire" />
+                    <field name="is_fret_forwarder" />
+                    <field name="is_service" />
             </field>
         </field>
     </record>
