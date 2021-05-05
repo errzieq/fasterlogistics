@@ -39,7 +39,7 @@ class CpsVoyage(models.Model):
     priorite = fields.Selection([('faible','Faible'),('moyen','Moyen'),('eleve','Elevé'), ('prioritaire','Prioritaire')], string='Priorité', default='faible')
     client_id = fields.Many2one("res.partner", string='Client', domain=[('is_transitaire', '=', False),('is_soutraitant', '=', False),('is_compagnie_aerienne', '=', False),('is_compagnie_maritine', '=', False),('is_compagnie_magasinnage', '=', False),('supplier_rank', '=', 0),('is_company', '=', True)])
     ref_client = fields.Char("Référence Client")
-    name = fields.Char('Nom du dossier')
+    name = fields.Char('Nom du dossier', compute='compute_name',inverse='uncompute_name', store=True)
     company_id = fields.Many2one('res.company', string='Company', default=lambda self: self.env.company.id)
     currency_id = fields.Many2one(related="client_id.property_product_pricelist.currency_id", string="devise")
     ref_tmc = fields.Char("Ref TMC")
@@ -144,6 +144,9 @@ class CpsVoyage(models.Model):
     resume_ids = fields.One2many('cps.voyage.resume', 'voyage_id', string='Résumé du dossier')
 
     def uncompute_price(self):
+        print('test')
+
+    def uncompute_name(self):
         print('test')
 
     @api.onchange('transport', 'transport_sea')
@@ -371,6 +374,7 @@ class CpsVoyage(models.Model):
                     'order_line': [(0, 0, {
                                     'product_id': p.product_id.id,
                                     'currency_id': p.currency_id.id,
+                                    'voyage_id': self.id,
                                     'name': p.description,
                                     'product_uom_qty': 1,
                                     'product_qty': 1,
@@ -394,6 +398,7 @@ class CpsVoyage(models.Model):
                 'order_line': [(0, 0, {
                                 'product_id': product_id.id,
                                 'name': product_id.name,
+                                'voyage_id': self.id,
                                 'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
                                 'product_uom_qty': 1,
                                 'qty_delivered': 1,
@@ -403,37 +408,37 @@ class CpsVoyage(models.Model):
             })
             sOrder.action_confirm()
 
-    def action_generate_invoice(self):
-        # "creating cps facture"
-        account_revenue = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)], limit=1)
-        if self.client_id is not False:
-            account_journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
-            invoice = self.env['account.move'].create({
-                'partner_id': self.client_id.id,
-                'partner_shipping_id': self.client_id.id,
-                'journal_id': account_journal.id,
-                'move_type': 'out_invoice',
-                'invoice_date': fields.Datetime.now(),
-                'invoice_payment_term_id': self.client_id.property_payment_term_id.id,
-                'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
-                'voyage_id': self.id,
-                'name': '/',
-                'invoice_line_ids': [],
-                'state': 'draft',
-
-            })
-            invoice_line = []
-            invoice_line.append((0, 0, {
-                'quantity': 1,
-                'price_unit': self.prix,
-                # 'name': self.trajet_id.name,
-                'account_id': account_revenue.id,
-                # 'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
-                'sale_line_ids': [],
-                # 'facturation_line_id': facture_line.id
-            }),
-                                )
-            invoice.write({'invoice_line_ids': invoice_line})
+    # def action_generate_invoice(self):
+    #     # "creating cps facture"
+    #     account_revenue = self.env['account.account'].search([('user_type_id', '=', self.env.ref('account.data_account_type_revenue').id)], limit=1)
+    #     if self.client_id is not False:
+    #         account_journal = self.env['account.journal'].search([('type', '=', 'sale')], limit=1)
+    #         invoice = self.env['account.move'].create({
+    #             'partner_id': self.client_id.id,
+    #             'partner_shipping_id': self.client_id.id,
+    #             'journal_id': account_journal.id,
+    #             'move_type': 'out_invoice',
+    #             'invoice_date': fields.Datetime.now(),
+    #             'invoice_payment_term_id': self.client_id.property_payment_term_id.id,
+    #             'currency_id': self.client_id.property_product_pricelist[0].currency_id.id,
+    #             'voyage_id': self.id,
+    #             'name': '/',
+    #             'invoice_line_ids': [],
+    #             'state': 'draft',
+    #
+    #         })
+    #         invoice_line = []
+    #         invoice_line.append((0, 0, {
+    #             'quantity': 1,
+    #             'price_unit': self.prix,
+    #             # 'name': self.trajet_id.name,
+    #             'account_id': account_revenue.id,
+    #             # 'tax_ids': [(6, 0, sol.tax_id.ids if tax_id is not False else [])],
+    #             'sale_line_ids': [],
+    #             # 'facturation_line_id': facture_line.id
+    #         }),
+    #                             )
+    #         invoice.write({'invoice_line_ids': invoice_line})
 
     def compute_facture_achat_amount(self):
         total=0
@@ -586,12 +591,14 @@ class CpsVoyage(models.Model):
                 p.prix+=vehicule_parc_id.prix
             for vehicule_parc2_ids in self.vehicule_parc2_ids:
                 p.prix+=vehicule_parc2_ids.prix
+            print('prix-------------------', p.prix)
 
     def set_price(self):
         for p in self:
             p.prix=p.cout_total+((p.cout_total*p.marge)/100)
 
     def name_get(self):
+        print('name get----------------')
         res = []
         for rec in self:
             name = rec.name
@@ -603,14 +610,15 @@ class CpsVoyage(models.Model):
     #     default.update ({'colisage_ids': 0})
     #     new_product_template = super(CpsProductProduction, self).copy(default)
     #     return new_product_template
-    # def get_name(self):
-    #     for s in self:
-    #         name = ""
-    #         if s.default_code is not False:
-    #             name = name + s.default_code
-    #         if s.trajet_id is not False:
-    #             name += " / " + s.trajet_id.name
-    #         return name
+
+    def get_name(self):
+        print('get name----------------')
+
+        for s in self:
+            name = ""
+            if s.default_code is not False:
+                name = name + s.default_code
+            return name
 
     @api.depends('default_code')
     def compute_name(self):
@@ -618,6 +626,7 @@ class CpsVoyage(models.Model):
             name = ""
             print('s.default_code-----------------------',s.default_code)
             # print('s.trajet_id-----------------------',s.trajet_id)
+            print('compute name----------------')
             if s.default_code is not False:
                 name = name + s.default_code
             # if len(s.trajet_id)>0:

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="sale_order_form_view">
+        <field name="name">sale.order.form.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="partner_id" position="after">
+                    <field name="voyage_id"/>
+                </field>
+                <xpath expr="/form/sheet/notebook/page[1]/field[@name='order_line']/tree/field[@name='name']" position="after">
+                    <field name="voyage_id"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="sale_order_tree_view">
+        <field name="name">sale.order.tree.inherit</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <data>
+                <field name="name" position="after">
+                    <field name="voyage_id"/>
+                </field>
+            </data>
+        </field>
+    </record>
+
+<!--    <record model="ir.ui.view" id="purchase_order_view_tree">-->
+<!--        <field name="name">purchase.order.tree.view.inherit</field>-->
+<!--        <field name="model">purchase.order</field>-->
+<!--        <field name="inherit_id" ref="purchase.purchase_order_form"/>-->
+<!--        <field name="arch" type="xml">-->
+<!--            <data>-->
+<!--                <field name="name" position="after">-->
+<!--                    <field name="voyage_id"/>-->
+<!--                </field>-->
+<!--            </data>-->
+<!--        </field>-->
+<!--    </record>-->
+</odoo>
+

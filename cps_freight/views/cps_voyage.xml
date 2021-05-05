@@ -199,7 +199,7 @@
                         </page>
                         <page string="Colisage" name="Colisage">
                                 <group string="Colisage">
-                                    <field name="colisage_ids"/>
+                                    <field name="colisage_ids" string="Colisages"/>
                                 </group>
                                     <group string="Divers" attrs="{'invisible': [('type_voyage', '=', 'national')]}">
 <!--                                    <field name="ton"/>-->
@@ -239,9 +239,10 @@
                                         <field name="type_voyage" invisible="1"/>
                                         <field name="type_parcours" invisible="1"/>
                                         <field name="etape_voyage" invisible="1"/>
-                                        <field name="cout" />
-                                        <field name="prix" />
-                                        <field name="currency_id" invisible="1"/>
+                                        <field name="cout" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="prix" widget="monetary" options="{'currency_field': 'currency_vente_id'}"/>
+                                        <field name="currency_id"/>
+                                        <field name="currency_vente_id"/>
                                     </tree>
                                 </field>
                             </group>
@@ -263,9 +264,10 @@
                                         <field name="type_voyage" invisible="1"/>
                                         <field name="type_parcours" invisible="1"/>
                                         <field name="etape_voyage" invisible="1"/>
-                                        <field name="cout" />
-                                        <field name="prix" />
-                                        <field name="currency_id" invisible="1"/>
+                                        <field name="cout" widget="monetary" options="{'currency_field': 'currency_id'}"/>
+                                        <field name="prix" widget="monetary" options="{'currency_field': 'currency_vente_id'}"/>
+                                        <field name="currency_id"/>
+                                        <field name="currency_vente_id"/>
                                     </tree>
                                 </field>
                              </group>
