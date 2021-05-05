@@ -6,6 +6,7 @@
         <field name="arch" type="xml">
             <tree name="Colis" editable="bottom">
                 <field name="date_tracking" />
+                <field name="bl" />
                 <field name="description" readonly="1"/>
                 <field name="observation" />
                 <field name="duree" />
