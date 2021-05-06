@@ -161,7 +161,7 @@ class CpsVoyage(models.Model):
 
     @api.model
     def create (self, vals):
-        vals['default_code'] = self.env['ir.sequence'].next_by_code('cps.voyage')
+        # vals['default_code'] = self.env['ir.sequence'].next_by_code('cps.voyage')
         result = super ( CpsVoyage, self).create(vals)
         self.env['cps.voyage.tracking'].create({'voyage_id': result.id, 'date_tracking': fields.Datetime.now(), 'description': dict(self._fields['state_national'].selection).get(self.state_national)})
         result.calculer_resume()
