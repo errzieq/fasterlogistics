@@ -112,13 +112,16 @@
                         <h1><field name="default_code" placeholder="N° de dossier"/></h1>
                      </div>
 
-                    <group>
-                        <group name="left">
-                            <field name="state_general"/>
+                    <group col="3">
+                        <group name="left" string="Général">
+                            <field name="state_general" invisible="True"/>
                             <field name="date"/>
                             <field name="client_id"/>
+<!--                            <field name="currency_id"/>-->
                             <field name="ref_client"/>
                             <field name="service"/>
+                        </group>
+                        <group name="center" string="Propriété" attrs="{'invisible': [('service', '!=', 'transport')]}">
                             <field name="type_voyage" attrs="{'invisible': [('service', '!=', 'transport')]}"/>
                             <field name="voie" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
                             <field name="type_trajet" attrs="{'invisible': [('type_voyage', '!=', 'international')]}"/>
@@ -129,18 +132,16 @@
                             <field name="type_transport" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
                             <field name="type_chemin" invisible="1"/>
                             <field name="cch" attrs="{'invisible': [('voie', '!=', 'air')]}"/>
-                            <field name="is_groupage"/>
-
+                            <field name="is_groupage" attrs="{'invisible': [('service', '!=', 'transport')]}"/>
                         </group>
-                        <group name="right">
+                        <group name="right" string="Suivi" attrs="{'invisible': [('service', '!=', 'transport')]}">
                             <field name="priorite" widget="priority"/>
-                            <field name="currency_id"/>
                             <field name="progress" widget="progressbar"/>
                         </group>
                     </group>
 
                     <notebook>
-                        <page string="Informations générales" name="general">
+                        <page string="Informations générales" name="general" attrs="{'invisible': [('type_voyage', '=', False)]}">
                              <group string="Trajet" attrs="{'invisible': [('is_groupage', '=', True)]}">
                                 <group name="left">
                                     <field name="lieu_ramassage" domain="[('type', '=', 'delivery')]"  context="{'default_type':'delivery', 'default_company_type':'company'}" options="{'no_quick_create':True}"/>
@@ -197,7 +198,7 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Colisage" name="Colisage">
+                        <page string="Colisage" name="Colisage" attrs="{'invisible': [('type_voyage', '=', False)]}">
                                 <group string="Colisage">
                                     <field name="colisage_ids" string="Colisages"/>
                                 </group>
@@ -371,12 +372,12 @@
                                 </group>
                             </group>
                         </page>
-                        <page string="Tracking" name="tracking">
+                        <page string="Tracking" name="tracking" attrs="{'invisible': [('type_voyage', '=', False)]}">
                              <group>
                                 <field name="tracking_ids"/>
                             </group>
                         </page>
-                        <page string="Resumé" name="charges">
+                        <page string="Resumé" name="charges" attrs="{'invisible': [('type_voyage', '=', False)]}">
                              <group>
                                 <field name="resume_ids" context="{'default_is_manuel': True}"/>
                             </group>

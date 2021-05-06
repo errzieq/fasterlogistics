@@ -605,11 +605,16 @@ class CpsVoyage(models.Model):
             res.append((rec.id, name))
         return res
 
-    # def copy(self, default=None):
-    #     default = dict(default or {})
-    #     default.update ({'colisage_ids': 0})
-    #     new_product_template = super(CpsProductProduction, self).copy(default)
-    #     return new_product_template
+    def copy(self, default=None):
+        default = dict(default or {})
+        default.update ({'ref_client': '',
+                         'ref_tmc':'',
+                         'porteur':0,
+                         'is_dedouanement_1':False,
+                         'cout_transitaire_1' : 0
+                         })
+        new_dossier = super(CpsVoyage, self).copy(default)
+        return new_dossier
 
     def get_name(self):
         print('get name----------------')
